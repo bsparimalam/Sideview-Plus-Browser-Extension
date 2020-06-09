@@ -1,0 +1,20 @@
+<!DOCTYPE  html>
+<html lang="en">
+<head>
+	<!-- site descrition -->
+	<meta charset="utf-8">
+	<title>mini-browser</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<div id="addressbar">
+		<datalist id="mostused"></datalist>
+		<input id="addressbox" type="url" autofocus name="input box" spellcheck="false" list="mostused">
+	</div>
+	<iframe id="browser" sandbox="allow-scripts allow-forms allow-same-origin" src=""></iframe>
+    <script src='./scripts.js'></script>
+</body>
+</html>
