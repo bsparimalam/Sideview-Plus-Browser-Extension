@@ -6,13 +6,25 @@
 		url('./font.ttf') format('truetype');
 }
 :root {
-	--background-0: #c1d5e0;
-	--background-1: #90a4ae;
-	--foreground-1: #78909c;
+	--background-0: #90a4ae;
 	--font-family:'Fira Sans', system-ui;
 	--font-size: 0.45cm;
 }
-html, body, div, input, button, iframe {
+@media (prefers-color-scheme: no-preference), (prefers-color-scheme: light) {
+	:root{
+		--background-0: #f1f3f4;
+		--background-1: #e1e3e4;
+		--foreground-1: #000000;
+	}
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background-0: #494a4d;
+		--background-1: #292a2d;
+		--foreground-1: #d9dadd;
+	}
+}
+html, body, div, input, iframe {
 	margin: 0;
 	border-width: 0;
 	padding: 0;
@@ -31,11 +43,11 @@ html, body, div, input, button, iframe {
 }
 /*layout*/
 html {
-	width: 10cm;
-	height: 16cm;
 	background-color: var(--background-0);
 }
 body {
+	width: 10cm;
+	height: 16cm;
 	display: grid;
 	grid-template-rows: 6% 94%;
 	grid-template-columns: 100%;
@@ -47,19 +59,24 @@ div {
 	grid-template-rows: 100%;
 	grid-template-columns: 100%;
 }
-input, button {
-	grid-row: span 1;
-	grid-column: span 1;
-	border-radius: 0.5cm;
-}
 input {
 	grid-row: span 1;
 	grid-column: span 1;
-}
-input, button {
-	color: black;
+	color: var(--foreground-1);
 	background-color: var(--background-1);
 	font-family: var(--font-family);
 	font-size: var(--font-size);
 	text-align: center;
+}
+datalist, option {
+	color: var(--foreground-1);
+	background-color: var(--background-1);
+	font-family: var(--font-family);
+	font-size: var(--font-size);
+	text-align: left;
+}
+input, datalist {
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
 }

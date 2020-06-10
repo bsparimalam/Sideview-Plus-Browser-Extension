@@ -4,18 +4,36 @@ browser = document.getElementById('browser');
 storagename = 'minibrowser.1.0';
 userpref = JSON.parse(window.localStorage.getItem(storagename));
 
-function loadthepage(url) {
-	if ((url.indexOf('http') === -1) && (url.indexOf('https') === -1)) {
-		url = 'http://' + url;
+function strip(url) {
+	if (url.slice(url.length-1, ) === '/') {
+		url = url.slice(0, url.length-1);
 	}
-	addressbox.value = url;
-	browser.src = url;
-	browser.focus();
-	log(url.replace(/http:\/\/|https:\/\//i, ''));
+	return url.replace(/http:\/\/|https:\/\/|www\./i, '');
+}
+
+function loadthepage(url) {
+	url = strip(url);
+	addressbox.value = '';
+	addressbox.placeholder = url;
+	browser.src = 'http://' + url;
 }
 
 if ((userpref !== null) && (userpref.recent !== '')) {
 	loadthepage(userpref.recent);
+}
+
+function loaduserpref() {
+	mostusedlist.innerHTML = '';
+	for (let i = 0; (i < 10) && (i < userpref.log.length ); i++) {
+		let opt = document.createElement('option');
+		let url = userpref.log[i]['url'];
+		opt.value = url;
+		mostusedlist.appendChild(opt);
+	}
+}
+
+function saveuserpref() {
+	window.localStorage.setItem(storagename, JSON.stringify(userpref));
 }
 
 if (userpref == null) { 
@@ -23,27 +41,10 @@ if (userpref == null) {
 		'recent' : '',
 		'log': []
 	}
-	saveuserpref();
 } else {
 	loaduserpref();
 } // load user preferred conversions
-function loaduserpref() {
-	mostusedlist.innerHTML = '';
-	for (let i = 0; (i < 10) && (i < userpref.log.length ); i++) {
-		let opt = document.createElement('option');
-		opt.value = userpref.log[i]['url'];
-		mostusedlist.appendChild(opt);
-	}
-}
-function saveuserpref() {
-	window.localStorage.setItem(storagename, JSON.stringify(userpref));
-}
-document.addEventListener('keydown', event => {
-	if ((addressbox === document.activeElement)
-			&& (event.key === 'Enter')) {
-		loadthepage(addressbox.value);
-	}
-});
+
 function log (url) {
 	userpref.recent = url;
 	var urlindex = 0;
@@ -65,3 +66,28 @@ function log (url) {
 	console.log(userpref);
 	saveuserpref();	loaduserpref();
 }
+
+document.addEventListener('keydown', event => {
+	if ((addressbox === document.activeElement)
+			&& (event.key === 'Enter')) {
+		loadthepage(addressbox.value);
+	}
+});
+
+addressbox.addEventListener('change', event => {
+	loadthepage(addressbox.value);
+});
+
+browser.addEventListener('load', event => {
+	let url;
+	try {
+		url = browser.location.href;
+	} catch {
+		url = browser.src;
+	}
+	log(strip(url));
+});
+
+browser.addEventListener('error', event => {
+	browser.src = './error.html';
+});
