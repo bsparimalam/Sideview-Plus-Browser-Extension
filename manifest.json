@@ -1,7 +1,7 @@
 {
   "name": "Mini-Browser for Multitasking",
   "short_name": "MiniBrowser",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Mini browser to access web utilities quickly",
   "browser_action": {
     "default_popup": "index.html",
@@ -33,5 +33,8 @@
       "./scripts.js"
     ]
   },
+  "permissions" : [
+    "geolocation"
+  ],
   "manifest_version": 2
 }

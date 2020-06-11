@@ -9,9 +9,9 @@
 <body>
 	<div id="addressbar">
 		<datalist id="mostused"></datalist>
-		<input id="addressbox" type="url" autofocus name="input box" spellcheck="false" list="mostused" placeholder="type in the url here">
+		<input id="addressbox" type="text" autofocus name="input box" spellcheck="false" list="mostused" placeholder="url or search">
 	</div>
-	<iframe id="browser" sandbox="allow-scripts allow-forms allow-same-origin" ></iframe>
+	<iframe id="browser" sandbox="allow-top-navigation allow-scripts allow-forms allow-same-origin" allow="geolocation *; microphone *"></iframe>
     <script src='./scripts.js'></script>
 </body>
 </html>

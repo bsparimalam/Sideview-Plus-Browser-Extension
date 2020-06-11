@@ -9,7 +9,7 @@
 	--background-0: #90a4ae;
 	--font-family:'Fira Sans', system-ui;
 	--font-size: 0.45cm;
-	--browser-width: 10cm;
+	--browser-width: 12cm;
 	--browser-height: 16cm;
 }
 @media (prefers-color-scheme: no-preference), (prefers-color-scheme: light) {
