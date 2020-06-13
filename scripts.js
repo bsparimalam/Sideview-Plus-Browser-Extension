@@ -5,6 +5,8 @@ browser = document.getElementById('browser');
 useragent = 'Mozilla/5.0 (Linux; Android 10; SM-G970U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.93 Mobile Safari/537.36';
 storagename = 'minibrowser.1.0';
 userpref = JSON.parse(window.localStorage.getItem(storagename));
+stdmessage = "url or search";
+searchmessage = "paste the first url here";
 // setting mobile useragent
 try {
 	Object.defineProperty(
@@ -23,27 +25,62 @@ if (userpref == null) {
 		'recent' : 'en.m.wikipedia.org/wiki/Main_Page',
 		'log': [
 			{	
-				'name': 'wikipedia',
+				'name': 'Wikipedia',
 				'url' : 'en.m.wikipedia.org/wiki/Main_Page',
 				'usecount'	: 1
 			},
 			{	
-				'name': 'urban dictionary',
-				'url' : 'urbandictionary.com',
-				'usecount'	: 1
-			},
-			{	
-				'name': 'dictionary',
+				'name': 'Dictionary',
 				'url' : 'merriam-webster.com',
 				'usecount'	: 1
 			},
 			{	
-				'name': 'emoji finder',
-				'url' : 'emojifinder.com',
+				'name': 'Calculator',
+				'url' : 'desmos.com/scientific',
+				'usecount'	: 1
+			},
+			{
+				'name': 'Internet Speed Test',
+				'url' : 'fast.com',
+				'usecount'	: 1
+			},
+			{
+				'name': 'Urban Dictionary',
+				'url' : 'urbandictionary.com',
 				'usecount'	: 1
 			},
 			{	
-				'name': 'unicode finder',
+				'name': 'Scientific Calculator',
+				'url' : 'desmos.com/scientific',
+				'usecount'	: 1
+			},
+			{
+				'name': 'BMI Calculator',
+				'url' : 'www-jvktpeglfs.now.sh',
+				'usecount'	: 1
+			},
+			{
+				'name': 'Emoji Typer',
+				'url' : 'emojityper.com',
+				'usecount'	: 1
+			},
+			{
+				'name': 'Word Counter',
+				'url' : 'wordcounter.io',
+				'usecount'	: 1
+			},
+			{
+				'name': 'TicTacToe',
+				'url' : 'tmaiadev-tictactoe.netlify.app',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Emoji Search',
+				'url' : 'emoji.muan.co',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Unicode Search',
 				'url' : 'xahlee.info/comp/unicode_index.html',
 				'usecount'	: 1
 			}
@@ -72,13 +109,27 @@ function loadthepage(url) {
 	url = strip(url);
 	addressbox.value = '';
 	if (url.indexOf('.') === -1) {
+		addressbox.placeholder = searchmessage;
 		browser.src = "http://google.com/search?btnI=1&sclient=mobile-gws-wiz-hp&q=" + url;
-		addressbox.placeholder = 'paste the first url here, for future access';
+		setTimeout(() => {
+			addressbox.placeholder = stdmessage;
+		}, 1500);
+		// let xhr = new XMLHttpRequest();
+		// xhr.onload = function () {
+		// 	if ((xhr.readyState === xhr.DONE) && (xhr.status === 200)) {
+		// 		console.log(xhr.reponse);
+		// 		console.log(xhr.responseText);
+		// 	}
+		// }
+		// xhr.open('GET', "https://bhar.app/calculator/index.html" + url, true);
+		// xhr.send();
 	} else {
 		browser.src = 'http://' + url;
-		addressbox.placeholder = 'url or search';
+		addressbox.placeholder = stdmessage;
 	}
 	log(url);
+	addressbox.blur();
+	browser.focus();
 }
 
 if ((userpref !== null) && (userpref.recent !== '')) {
@@ -89,11 +140,11 @@ if ((userpref !== null) && (userpref.recent !== '')) {
 
 function loaduserpref() {
 	mostusedlist.innerHTML = '';
-	for (let i = 0; (i < 9) && (i < userpref.log.length ); i++) {
+	for (let i = 0; i < userpref.log.length; i++) {
 		let opt = document.createElement('option');
 		let url = userpref.log[i]['url'];
 		opt.value = url;
-		opt.innerHTML = userpref.log[i]['name'];
+		opt.textContent = userpref.log[i]['name'];
 		// opt.style.backgroundImageUrl = "http://${url}/favicon.ico";
 		mostusedlist.appendChild(opt);
 	}
@@ -146,46 +197,6 @@ document.addEventListener('keydown', event => {
 addressbox.addEventListener('change', event => {
 	loadthepage(addressbox.value);
 });
-
-// addressbox.addEventListener('drop', event => {
-// 	event.preventDefault();
-// 	loadthepage(event.dataTransfer.getData('text'));
-// 	console.log('............................');
-// });
-// addressbox.addEventListener('dragover', event => {
-// 	event.preventDefault();
-// });
-// document.addEventListener('dragstart', event => {
-// 	ev.dataTransfer.setData("text", event.target.href);
-// });
-
-// document.addEventListener('click', event => {
-// 	let id = event.target.id;
-// 	console.log(id);
-// 	switch(id) {
-// 		case 'back': 
-// 			browser.contentWindow.history.back();
-// 			break;
-// 		case 'forward': 
-// 			browser.contentWindow.history.forward(); 
-// 			break;
-// 		case 'reload': 
-// 			browser.contentWindow.location.reload(); 
-// 			break;
-// 		case 'browser':
-
-// 	}
-// });
-// browser.addEventListener('load', event => {
-// 	let url;
-// 	try {
-// 		url = browser.location.href;
-// 	} catch {
-// 		url = browser.src;
-// 	}
-// 	log(strip(url));
-// });
-
-// browser.addEventListener('error', event => {
-// 	browser.src = './error.html';
+// addressbox.addEventListener('input', event => {
+// 	loadthepage(addressbox.value);
 // });

@@ -9,7 +9,7 @@
 	--background-0: #90a4ae;
 	--font-family:'Fira Sans', system-ui;
 	--font-size: 0.45cm;
-	--browser-width: 12cm;
+	--browser-width: 10cm;
 	--browser-height: 16cm;
 }
 @media (prefers-color-scheme: no-preference), (prefers-color-scheme: light) {
@@ -41,7 +41,7 @@ html, body, div, input, iframe {
 	display: none;
 }
 :focus {
-	outline: none !important
+	outline: none !important;
 }
 /*layout*/
 html {
@@ -60,6 +60,10 @@ div {
 	display: grid;
 	grid-template-rows: 100%;
 	grid-template-columns: 100%;
+}
+iframe {
+	grid-row: span 1;
+	grid-column: span 1;
 }
 input {
 	grid-row: span 1;
