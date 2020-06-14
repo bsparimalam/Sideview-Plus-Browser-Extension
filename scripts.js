@@ -36,7 +36,7 @@ if (userpref == null) {
 			},
 			{	
 				'name': 'Calculator',
-				'url' : 'desmos.com/scientific',
+				'url' : 'desmos.com/fourfunction',
 				'usecount'	: 1
 			},
 			{
@@ -82,6 +82,16 @@ if (userpref == null) {
 			{	
 				'name': 'Unicode Search',
 				'url' : 'xahlee.info/comp/unicode_index.html',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Superscript Generator',
+				'url' : 'lingojam.com/SuperscriptGenerator',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Subscript Generator',
+				'url' : 'lingojam.com/SubscriptGenerator',
 				'usecount'	: 1
 			}
 		]
