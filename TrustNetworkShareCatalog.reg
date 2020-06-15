@@ -1,0 +1,6 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\WEF\TrustedCatalogs\{6124aa27-eccf-4180-b9f3-1012d1483222}]
+"Id"="{6124aa27-eccf-4180-b9f3-1012d1483222}"
+"Url"="\\\\DESKTOP-NT1NRUG\\mini-browser-extension"
+"Flags"=dword:00000001

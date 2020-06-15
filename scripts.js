@@ -1,12 +1,14 @@
 addressbox = document.getElementById('addressbox');
 addressbar = document.getElementById('addressbar');
 mostusedlist = document.getElementById('mostused');
+loading = document.getElementById('loading');
 browser = document.getElementById('browser');
 useragent = 'Mozilla/5.0 (Linux; Android 10; SM-G970U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.93 Mobile Safari/537.36';
 storagename = 'minibrowser.1.0';
 userpref = JSON.parse(window.localStorage.getItem(storagename));
 stdmessage = "url or search";
 searchmessage = "paste the first url here";
+
 // setting mobile useragent
 try {
 	Object.defineProperty(
@@ -116,6 +118,8 @@ function striptoname(url) {
 }
 
 function loadthepage(url) {
+	loading.style.display = 'grid';
+	browser.style.display = 'none';
 	url = strip(url);
 	addressbox.value = '';
 	if (url.indexOf('.') === -1) {
@@ -123,7 +127,7 @@ function loadthepage(url) {
 		browser.src = "http://google.com/search?btnI=1&sclient=mobile-gws-wiz-hp&q=" + url;
 		setTimeout(() => {
 			addressbox.placeholder = stdmessage;
-		}, 1500);
+		}, 2000);
 		// let xhr = new XMLHttpRequest();
 		// xhr.onload = function () {
 		// 	if ((xhr.readyState === xhr.DONE) && (xhr.status === 200)) {
@@ -140,12 +144,6 @@ function loadthepage(url) {
 	log(url);
 	addressbox.blur();
 	browser.focus();
-}
-
-if ((userpref !== null) && (userpref.recent !== '')) {
-	loadthepage(userpref.recent);
-} else {
-	loadthepage('en.m.wikipedia.org/wiki/Main_Page');
 }
 
 function loaduserpref() {
@@ -165,7 +163,6 @@ function saveuserpref() {
 }
 
 loaduserpref();
-loadthepage(userpref.recent);
 // load user preferred conversions
 
 function log (url) {
@@ -197,16 +194,20 @@ function log (url) {
 	saveuserpref();	loaduserpref();
 }
 
-document.addEventListener('keydown', event => {
-	if ((addressbox === document.activeElement)
-			&& (event.key === 'Enter')) {
+addressbox.addEventListener('keydown', event => {
+	console.log(event.key);
+	if (event.key === 'Enter') {
 		loadthepage(addressbox.value);
 	}
 });
-
 addressbox.addEventListener('change', event => {
 	loadthepage(addressbox.value);
 });
-// addressbox.addEventListener('input', event => {
-// 	loadthepage(addressbox.value);
-// });
+browser.addEventListener('load', event => {
+	loading.style.display = 'none';
+	browser.style.display = 'grid';
+});
+setTimeout(()=>{
+	loadthepage('http://' + userpref.recent);
+	setTimeout(() => { addressbox.focus(); }, 1000);
+}, 100);

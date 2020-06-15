@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
+  <!-- See https://github.com/OfficeDev/Office-Add-in-Commands-Samples for documentation-->
+  <!-- BeginBasicSettings: Add-in metadata, used for all versions of Office unless override provided -->
+  <!--IMPORTANT! Id must be unique for your add-in. If you copy this manifest ensure that you change this id to your own GUID. -->
+  <Id>6124aa27-eccf-4180-b9f3-1012d1483222</Id>
+  <Version>0.0.8</Version>
+  <ProviderName>bhar.app</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <!-- The display name of your add-in. Used on the store and various placed of the Office UI such as the add-ins dialog -->
+  <DisplayName DefaultValue="Mini-Browser for Multitasking" />
+  <Description DefaultValue="Use web utilities/tools without leaving the tab" />
+  <!--Icon for your add-in. Used on installation screens and the add-ins dialog -->
+  <IconUrl DefaultValue="./icon-32.png" />
+  <HighResolutionIconUrl DefaultValue="./icon-512.png" />
+  <SupportUrl DefaultValue="https://bhar.app/" />
+  <!--BeginTaskpaneMode integration. Office 2013 and any client that doesn't understand commands will use this section.
+    This section will also be used if there are no VersionOverrides -->
+  <Hosts>
+    <Host Name="Document"/>
+    <Host Name="Workbook"/>
+    <Host Name="Presentation"/>
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="./index.html" />
+  </DefaultSettings>
+  <!--EndTaskpaneMode integration -->
+
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <!--BeginAddinCommandsMode integration-->
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Hosts>
+      <Host xsi:type="Document">
+        <DesktopFormFactor>
+          <FunctionFile resid="Contoso.FunctionFile.Url" />
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Hosts>
+      <Host xsi:type="Workbook">
+        <DesktopFormFactor>
+          <FunctionFile resid="Contoso.FunctionFile.Url" />
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Hosts>
+      <Host xsi:type="Presentation">
+        <DesktopFormFactor>
+          <FunctionFile resid="Contoso.FunctionFile.Url" />
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Contoso.TaskpaneButton.Icon16" DefaultValue="./icon-16.png" />
+        <bt:Image id="Contoso.TaskpaneButton.Icon32" DefaultValue="./icon-32.png" />
+        <bt:Image id="Contoso.TaskpaneButton.Icon80" DefaultValue="./icon-80.png" />
+        <bt:Image id="Contoso.FunctionButton.Icon" DefaultValue="./icon-32.png" />
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Contoso.FunctionFile.Url" DefaultValue="./index.html" />
+      </bt:Urls>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>
