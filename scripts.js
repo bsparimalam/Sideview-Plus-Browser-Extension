@@ -95,10 +95,21 @@ if (userpref == null) {
 				'name': 'Subscript Generator',
 				'url' : 'lingojam.com/SubscriptGenerator',
 				'usecount'	: 1
+			},
+			{	
+				'name': 'Small Caps Generator',
+				'url' : 'yaytext.com/small-caps',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Strikethrough Text Generator',
+				'url' : 'yaytext.com/strike',
+				'usecount'	: 1
 			}
 		]
 	}
 }
+
 
 function strip(url) {
 	if (url.slice(url.length-1, ) === '/') {
