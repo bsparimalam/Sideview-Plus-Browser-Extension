@@ -9,6 +9,13 @@ userpref = JSON.parse(window.localStorage.getItem(storagename));
 stdmessage = "url or search";
 searchmessage = "paste the first url here";
 
+// suppress iframe errors
+window.addEventListener('error', (msg, url, line) => {
+    if (msg == "[IFRAME ERROR MESSAGE]") {
+        return true
+    }	
+});
+
 // setting mobile useragent
 try {
 	Object.defineProperty(
