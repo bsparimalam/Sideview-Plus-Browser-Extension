@@ -4,13 +4,24 @@ Do that
 
 ‣ Dictionary lookup
 ‣ Quick calculation
+‣ Currency conversion
 ‣ Emoji search
+‣ Song lyrics lookup
 ‣ Unicode search
 ‣ Wikipedia lookup
-‣ Your favorite web utility/tool¹
+‣ Text Formatting
 
-without leaving the tab.
+or just use your favorite web utility/tool¹, without leaving the tab.
 
 ¹some websites refuse to load inside the extension. Implementation of workarounds are not planned.
+
+iFrame Allow:
+
+translate.google.com
+developer.mozilla.org/en-US
+tinder.com
+messages.google.com
+messenger.com (needs 12 cm width)
+instagram.com
 
 No extension component is remotely loaded. Network requests are made only to the websites users request explicitly, which is run inside a secure sandbox without any interaction with the page content.

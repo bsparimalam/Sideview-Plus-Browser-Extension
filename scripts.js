@@ -15,7 +15,6 @@ window.addEventListener('error', (msg, url, line) => {
         return true
     }	
 });
-
 // setting mobile useragent
 try {
 	Object.defineProperty(
@@ -28,16 +27,10 @@ try {
 		userAgent: { get: function() { return useragent;} }
 	});
 }
-
 if (userpref == null) { 
 	userpref = { 
 		'recent' : 'en.m.wikipedia.org/wiki/Main_Page',
 		'log': [
-			{	
-				'name': 'Wikipedia',
-				'url' : 'en.m.wikipedia.org/wiki/Main_Page',
-				'usecount'	: 1
-			},
 			{	
 				'name': 'Dictionary',
 				'url' : 'merriam-webster.com',
@@ -48,14 +41,9 @@ if (userpref == null) {
 				'url' : 'desmos.com/fourfunction',
 				'usecount'	: 1
 			},
-			{
-				'name': 'Internet Speed Test',
-				'url' : 'fast.com',
-				'usecount'	: 1
-			},
-			{
-				'name': 'Urban Dictionary',
-				'url' : 'urbandictionary.com',
+			{	
+				'name': 'Currency Converter',
+				'url' : 'xe.com/currencyconverter',
 				'usecount'	: 1
 			},
 			{	
@@ -64,28 +52,33 @@ if (userpref == null) {
 				'usecount'	: 1
 			},
 			{
+				'name': 'Urban Dictionary',
+				'url' : 'urbandictionary.com',
+				'usecount'	: 1
+			},
+			{
+				'name': 'Internet Speed Test',
+				'url' : 'fast.com',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Wikipedia',
+				'url' : 'en.m.wikipedia.org/wiki/Main_Page',
+				'usecount'	: 1
+			},
+			{
 				'name': 'BMI Calculator',
 				'url' : 'www-jvktpeglfs.now.sh',
 				'usecount'	: 1
 			},
 			{
-				'name': 'Emoji Typer',
+				'name': 'Emoji Search',
 				'url' : 'emojityper.com',
 				'usecount'	: 1
 			},
 			{
 				'name': 'Word Counter',
 				'url' : 'wordcounter.io',
-				'usecount'	: 1
-			},
-			{
-				'name': 'TicTacToe',
-				'url' : 'tmaiadev-tictactoe.netlify.app',
-				'usecount'	: 1
-			},
-			{	
-				'name': 'Emoji Search',
-				'url' : 'emoji.muan.co',
 				'usecount'	: 1
 			},
 			{	
@@ -112,12 +105,30 @@ if (userpref == null) {
 				'name': 'Strikethrough Text Generator',
 				'url' : 'yaytext.com/strike',
 				'usecount'	: 1
+			},
+			{	
+				'name': 'Font Awesome',
+				'url' : 'fontawesome.com/icons?d=gallery',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Movie Reviews',
+				'url' : 'imdb.com',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Lyrics Search',
+				'url' : 'azlyrics.com',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Web Search',
+				'url' : 'duckduckgo.com',
+				'usecount'	: 1
 			}
 		]
 	}
 }
-
-
 function strip(url) {
 	if (url.slice(url.length-1, ) === '/') {
 		url = url.slice(0, url.length-1);
@@ -125,7 +136,6 @@ function strip(url) {
 	url = url.replace(/http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/|www\./i, '');
 	return  url;
 }
-
 function striptoname(url) {
 	url = url.slice(0, url.indexOf('/'));
 	url = url.slice(0, url.lastIndexOf('.'));
@@ -134,7 +144,6 @@ function striptoname(url) {
 	}
 	return url;
 }
-
 function loadthepage(url) {
 	loading.style.display = 'grid';
 	browser.style.display = 'none';
@@ -163,7 +172,6 @@ function loadthepage(url) {
 	addressbox.blur();
 	browser.focus();
 }
-
 function loaduserpref() {
 	mostusedlist.innerHTML = '';
 	for (let i = 0; i < userpref.log.length; i++) {
@@ -171,18 +179,14 @@ function loaduserpref() {
 		let url = userpref.log[i]['url'];
 		opt.value = url;
 		opt.textContent = userpref.log[i]['name'];
-		// opt.style.backgroundImageUrl = "http://${url}/favicon.ico";
 		mostusedlist.appendChild(opt);
 	}
 }
-
 function saveuserpref() {
 	window.localStorage.setItem(storagename, JSON.stringify(userpref));
 }
-
 loaduserpref();
 // load user preferred conversions
-
 function log (url) {
 	userpref.recent = url;
 	var urlindex = 0;
@@ -211,7 +215,6 @@ function log (url) {
 	console.log(userpref);
 	saveuserpref();	loaduserpref();
 }
-
 addressbox.addEventListener('keydown', event => {
 	console.log(event.key);
 	if (event.key === 'Enter') {

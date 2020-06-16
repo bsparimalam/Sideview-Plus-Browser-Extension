@@ -1,7 +1,7 @@
 {
   "name": "Mini-Browser for Multitasking",
   "short_name": "MiniBrowser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "🔎📖 Use web utilities/tools without leaving the tab",
   "browser_action": {
     "default_popup": "index.html",

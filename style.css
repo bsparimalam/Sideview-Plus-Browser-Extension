@@ -85,3 +85,6 @@ input, datalist {
 	-webkit-appearance: none;
 	appearance: none;
 }
+option { background-image:url(male.png);   }
+/*select#gender option[value="female"] { background-image:url(female.png); }
+select#gender option[value="others"] { background-image:url(others.png); }*/
