@@ -20,7 +20,7 @@
 		--foreground-1: #d9dadd;
 	}
 }
-html, body, div, input, iframe {
+html, body, div, button, input, iframe {
 	margin: 0;
 	border-width: 0;
 	padding: 0;
@@ -53,9 +53,8 @@ div {
 	grid-column: span 1;
 	display: grid;
 	grid-template-rows: 100%;
-	grid-template-columns: 100%;
+	grid-template-columns: 0% 100%;
 }
-
 iframe {
 	display: grid;
 	grid-row: span 1;
@@ -64,7 +63,7 @@ iframe {
 #browser {
 	display: none;
 }
-input {
+button, input {
 	grid-row: span 1;
 	grid-column: span 1;
 	color: var(--foreground-1);
@@ -72,6 +71,12 @@ input {
 	font-family: var(--font-family);
 	font-size: var(--font-size);
 	text-align: center;
+}
+button:hover {
+	font-weight: 900;
+}
+button:active {
+	font-weight: 100;
 }
 datalist, option {
 	color: var(--foreground-1);

@@ -1,13 +1,17 @@
-addressbox = document.getElementById('addressbox');
 addressbar = document.getElementById('addressbar');
+start = document.getElementById('start');
+addressbox = document.getElementById('addressbox');
 mostusedlist = document.getElementById('mostused');
 loading = document.getElementById('loading');
 browser = document.getElementById('browser');
+
 useragent = 'Mozilla/5.0 (Linux; Android 10; SM-G970U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.93 Mobile Safari/537.36';
 storagename = 'minibrowser.1.0';
 userpref = JSON.parse(window.localStorage.getItem(storagename));
 stdmessage = "url or search";
 searchmessage = "paste the first url here";
+displaystart = '10% 90%';
+hidestart = '0% 100%';
 
 // suppress iframe errors
 window.addEventListener('error', (msg, url, line) => {
@@ -151,7 +155,7 @@ function loadthepage(url) {
 	addressbox.value = '';
 	if (url.indexOf('.') === -1) {
 		addressbox.placeholder = searchmessage;
-		browser.src = "http://google.com/search?btnI=1&sclient=mobile-gws-wiz-hp&q=" + url;
+		browser.src = "http://google.com/search?sclient=mobile-gws-wiz-hp&q=" + url;
 		setTimeout(() => {
 			addressbox.placeholder = stdmessage;
 		}, 2000);
@@ -215,6 +219,12 @@ function log (url) {
 	console.log(userpref);
 	saveuserpref();	loaduserpref();
 }
+addressbox.addEventListener('focus', event => {
+	addressbar.style.gridTemplateColumns = hidestart;
+});
+addressbox.addEventListener('blur', event => {
+	addressbar.style.gridTemplateColumns = displaystart;
+});
 addressbox.addEventListener('keydown', event => {
 	console.log(event.key);
 	if (event.key === 'Enter') {
@@ -223,6 +233,9 @@ addressbox.addEventListener('keydown', event => {
 });
 addressbox.addEventListener('change', event => {
 	loadthepage(addressbox.value);
+});
+start.addEventListener('click', event => {
+	loadthepage(userpref.recent);
 });
 browser.addEventListener('load', event => {
 	loading.style.display = 'none';
