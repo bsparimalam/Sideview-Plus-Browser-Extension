@@ -2,6 +2,7 @@ Use web utilities/tools without leaving the tab
 
 Do that
 
+‣ Quick web search
 ‣ Dictionary lookup
 ‣ Quick calculation
 ‣ Currency conversion
@@ -10,18 +11,12 @@ Do that
 ‣ Unicode search
 ‣ Wikipedia lookup
 ‣ Text Formatting
+‣ Translation
 
 or just use your favorite web utility/tool¹, without leaving the tab.
 
 ¹some websites refuse to load inside the extension. Implementation of workarounds are not planned.
 
-iFrame Allow:
-
-translate.google.com
-developer.mozilla.org/en-US
-tinder.com
-messages.google.com
-messenger.com (needs 12 cm width)
-instagram.com
+utilized to modify user-agent to simulate a mobile device and expand accessible sites. Essential for user experience. Activated only after user activates the extension, shutdown as soon as the extension is closed.
 
 No extension component is remotely loaded. Network requests are made only to the websites users request explicitly, which is run inside a secure sandbox without any interaction with the page content.

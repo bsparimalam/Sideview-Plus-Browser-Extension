@@ -5,35 +5,68 @@ mostusedlist = document.getElementById('mostused');
 loading = document.getElementById('loading');
 browser = document.getElementById('browser');
 
-useragent = 'Mozilla/5.0 (Linux; Android 10; SM-G970U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.93 Mobile Safari/537.36';
 storagename = 'minibrowser.1.0';
-userpref = JSON.parse(window.localStorage.getItem(storagename));
-stdmessage = "url or search";
-searchmessage = "paste the first url here";
 displaystart = '10% 90%';
 hidestart = '0% 100%';
+userpref = JSON.parse(window.localStorage.getItem(storagename));
+stdmessage = "url or search";
+chromeua = 'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Mobile Safari/537.36';
+firefoxua = 'Mozilla/5.0 (Android 10; Mobile; rv:68.0) Gecko/68.0 Firefox/68.0';
+operaua = 'Mozilla/5.0 (Linux; Android 10; VOG-L29) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Mobile Safari/537.36 OPR/55.2.2719';
+edgeua = 'Mozilla/5.0 (Linux; Android 10; HD1913) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Mobile Safari/537.36 EdgA/45.3.4.4958';
 
-// suppress iframe errors
-window.addEventListener('error', (msg, url, line) => {
-    if (msg == "[IFRAME ERROR MESSAGE]") {
-        return true
-    }	
-});
-// setting mobile useragent
-try {
-	Object.defineProperty(
-		browser.contentWindow.navigator,
-		'userAgent', 
-		{ get: function() { return useragent;}}
-	);
-} catch {
-	browser.contentWindow.navigator = Object.create(navigator, {
-		userAgent: { get: function() { return useragent;} }
-	});
-}
-if (userpref == null) { 
+chrome.webRequest.onBeforeSendHeaders.addListener(
+	details => {
+		for(let i = 0; i < details.requestHeaders.length; ++i) {
+			if (details.requestHeaders[i].name === 'User-Agent') {
+				let currentua = details.requestHeaders[i].value;
+				let temp = currentua.split(' ');
+				temp = temp[temp.length-1];
+				temp = temp.split('/');
+				let host = temp[0];
+				if (host === 'Edg') {
+					details.requestHeaders[i].value = edgeua;
+				} else if (host === 'OPR') {
+					details.requestHeaders[i].value = operaua;
+				} else if (host === 'Firefox') {
+					details.requestHeaders[i].value = firefoxua;
+				} else {
+					details.requestHeaders[i].value = chromeua;
+				}
+				break;
+			}
+		}
+		return {requestHeaders: details.requestHeaders};
+	},
+	{
+		urls: ["<all_urls>"]
+	},
+	[
+		'blocking', 'requestHeaders'
+	]
+);
+
+chrome.webRequest.onHeadersReceived.addListener(
+	details => {
+		for(let i = 0; i < details.responseHeaders.length; ++i) {
+			if (details.responseHeaders[i].name === 'x-frame-options') {
+				details.responseHeaders.splice(i, 1);
+				break;
+			}
+		}
+		return {responseHeaders: details.responseHeaders};
+	},
+	{
+		urls: ['<all_urls>']
+	},
+	[
+		'blocking', 'responseHeaders'
+	]
+);
+
+if (userpref === null) { 
 	userpref = { 
-		'recent' : 'en.m.wikipedia.org/wiki/Main_Page',
+		'recent' : 'wikipedia.org',
 		'log': [
 			{	
 				'name': 'Dictionary',
@@ -67,7 +100,7 @@ if (userpref == null) {
 			},
 			{	
 				'name': 'Wikipedia',
-				'url' : 'en.m.wikipedia.org/wiki/Main_Page',
+				'url' : 'wikipedia.org',
 				'usecount'	: 1
 			},
 			{
@@ -126,10 +159,26 @@ if (userpref == null) {
 				'usecount'	: 1
 			},
 			{	
-				'name': 'Web Search',
-				'url' : 'duckduckgo.com',
+				'name': 'Instagram',
+				'url' : 'instagram.com',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Google Messages',
+				'url' : 'messages.google.com',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Google Voice',
+				'url' : 'voice.google.com',
+				'usecount'	: 1
+			},
+			{	
+				'name': 'Google Translate',
+				'url' : 'translate.google.com',
 				'usecount'	: 1
 			}
+			
 		]
 	}
 }
@@ -154,20 +203,7 @@ function loadthepage(url) {
 	url = strip(url);
 	addressbox.value = '';
 	if (url.indexOf('.') === -1) {
-		addressbox.placeholder = searchmessage;
-		browser.src = "http://google.com/search?sclient=mobile-gws-wiz-hp&q=" + url;
-		setTimeout(() => {
-			addressbox.placeholder = stdmessage;
-		}, 2000);
-		// let xhr = new XMLHttpRequest();
-		// xhr.onload = function () {
-		// 	if ((xhr.readyState === xhr.DONE) && (xhr.status === 200)) {
-		// 		console.log(xhr.reponse);
-		// 		console.log(xhr.responseText);
-		// 	}
-		// }
-		// xhr.open('GET', "https://bhar.app/calculator/index.html" + url, true);
-		// xhr.send();
+		browser.src = "http://google.com/search?q=" + url;
 	} else {
 		browser.src = 'http://' + url;
 		addressbox.placeholder = stdmessage;
@@ -200,13 +236,7 @@ function log (url) {
 	}
 	if (urlindex != userpref.log.length) {
 		userpref.log[urlindex].usecount += 1;
-	} else if (url.indexOf('.') === -1) {
-		// userpref.log.push({
-		// 	'name': 'search',
-		// 	'url' : url,
-		// 	'usecount'	: 1
-		// });
-	} else {
+	} else if (url.indexOf('.') !== -1) {
 		userpref.log.push({
 			'name': striptoname(url),
 			'url' : url,
