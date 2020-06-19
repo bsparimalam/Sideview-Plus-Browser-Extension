@@ -1,0 +1,40 @@
+<!DOCTYPE  html>
+<html lang="en">
+<head>
+	<!-- site descrition -->
+	<title>Mini-Browser for Multitasking</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body id="body">
+	<div id="addressbar">
+		<button id="back" title="Click to go back">
+			<picture>
+		    	<source srcset="./back-dark.png" 
+		    		media="(prefers-color-scheme: dark)">
+				<img class="icon" id="back" src="./back.png"/>
+			</picture>
+		</button>
+		<button id="forward" title="Click to go forward">
+			<picture>
+		    	<source srcset="./forward-dark.png" 
+		    		media="(prefers-color-scheme: dark)">
+				<img class="icon" id="forward" src="./forward.png"/>
+			</picture>
+		</button>
+		<input id="addressbox" type="text" autofocus name="input box" spellcheck="false" list="mostused"  title="Search Google or type a URL">
+		<datalist id="mostused"></datalist>
+		<button id="start" title="Go to the start page">
+			<picture>
+		    	<source srcset="./reload-dark.png" 
+		    		media="(prefers-color-scheme: dark)">
+				<img class="icon" id="start" src="./reload.png"/>
+			</picture>
+		</button>
+	</div>
+	<iframe id="loading" sandbox src="./loading.html" ></iframe>
+	<iframe id="browser" sandbox=" allow-scripts allow-forms allow-same-origin"></iframe>
+    <script async src='./scripts.js'></script>
+</body>
+</html>

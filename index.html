@@ -1,19 +1,11 @@
 <!DOCTYPE  html>
 <html lang="en">
 <head>
-	<!-- site descrition -->
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="./style.css">
 </head>
 <body>
-	<div id="addressbar">
-		<button id="start">⭘</button>
-		<input id="addressbox" type="text" autofocus name="input box" spellcheck="false" list="mostused" placeholder="url or search">
-		<datalist id="mostused"></datalist>
-	</div>
-	<iframe id="loading" sandbox src="./loading.html" ></iframe>
-	<iframe id="browser" sandbox=" allow-scripts allow-forms allow-same-origin"></iframe>
-    <script async src='./scripts.js'></script>
+	<iframe id="popupwindow" src="./engine/index.html"></iframe>
+	<script src="./scripts.js"></script>
 </body>
 </html>

@@ -17,6 +17,31 @@ or just use your favorite web utility/tool¹, without leaving the tab.
 
 ¹some websites refuse to load inside the extension. Implementation of workarounds are not planned.
 
+Justification for Permissions:
 utilized to modify user-agent to simulate a mobile device and expand accessible sites. Essential for user experience. Activated only after user activates the extension, shutdown as soon as the extension is closed.
 
+Justification for remote requests:
 No extension component is remotely loaded. Network requests are made only to the websites users request explicitly, which is run inside a secure sandbox without any interaction with the page content.
+
+utilized to provide options to initiate a search or navigate in a small window or simply open a new one
+
+What do we do with the requested permissions?
+
+//Firefox Data for all websites:
+//Chrome Read and change data on sites:
+- load the website you request
+- modify the request to get the mobile version
+- remove certain restrictions to expand the number of usable websites
+
+//Firefox Browser tabs:
+// Context Menus & Tabs:
+- search google for the term you request via the context menu
+- load the link you request via the context menu in a Mini-Browser window
+- open a new Mini-Browser window when you request via the context menu
+
+What do we do with the user data?
+
+- The extension only runs upon user's explicit activation
+- No user data is transmitted to a remote server
+- Browsing history is locally stored to improve suggestions
+- You can permanently wipe it off by removing and reinstalling the extension
