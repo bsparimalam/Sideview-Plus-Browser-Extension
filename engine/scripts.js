@@ -8,6 +8,8 @@ let ismousein;
 let link;
 let url;
 let searchengine;
+let httptype;
+
 storagename = 'minibrowser.1.0';
 userpref = JSON.parse(window.localStorage.getItem(storagename));
 let currentua = navigator.userAgent;
@@ -33,6 +35,7 @@ try {
 	}
 }
 if (isextension) {
+	httptype = 'http://';
 	chromeua = 'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Mobile Safari/537.36';
 	firefoxua = 'Mozilla/5.0 (Android 10; Mobile; rv:68.0) Gecko/68.0 Firefox/68.0';
 	operaua = 'Mozilla/5.0 (Linux; Android 10; VOG-L29) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Mobile Safari/537.36 OPR/55.2.2719';
@@ -204,6 +207,7 @@ if (isextension) {
 } else {
 	standardplaceholder = "Type a URL";
 	searchengine = false;
+	httptype = 'https://';
 	if (userpref === null) { 
 		userpref = { 
 			'recent' : 'en.m.wikipedia.org/wiki/main_page',
@@ -215,17 +219,12 @@ if (isextension) {
 				},
 				{	
 					'name': 'Calculator',
-					'url' : 'desmos.com/fourfunction',
+					'url' : 'bhar.app/calculator',
 					'usecount'	: 1
 				},
 				{	
 					'name': 'Currency Converter',
 					'url' : 'xe.com/currencyconverter',
-					'usecount'	: 1
-				},
-				{	
-					'name': 'Scientific Calculator',
-					'url' : 'desmos.com/scientific',
 					'usecount'	: 1
 				},
 				{
@@ -248,9 +247,9 @@ if (isextension) {
 					'url' : 'emojifinder.com',
 					'usecount'	: 1
 				},
-				{	
+				{
 					'name': 'Unicode Search',
-					'url' : 'xahlee.info/comp/unicode_index.html',
+					'url' : 'www.amp-what.com/unicode/search/icon',
 					'usecount'	: 1
 				},
 				{	
@@ -294,7 +293,7 @@ function strip(url) {
 	if (url.slice(url.length-1, ) === '/') {
 		url = url.slice(0, url.length-1);
 	}
-	url = url.replace(/http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/|www\./i, '');
+	url = url.replace(/http:\/\/|https:\/\//i, '');
 	return  url;
 }
 function striptoname(url) {
@@ -311,13 +310,13 @@ function loadthepage(url) {
 	loading.style.display = 'grid';
 	url = strip(url);
 	if ((url.indexOf('.') === -1) && searchengine) {
-		browser.src = `http://${searchengine}.com/search?q=${url}`;
+		browser.src = `${httptype}${searchengine}.com/search?q=${url}`;
 		setTimeout(() => {
 			addressbox.placeholder = `${searchengine}.com`;
 			addressbox.value = '';
 		}, 500);
 	} else if (url.indexOf('.') !== -1) {
-		browser.src = 'http://' + url;
+		browser.src = `${httptype}${url}`;
 		setTimeout(() => {
 			if (url.indexOf('/') !== -1) {
 				addressbox.placeholder = url.slice(0, url.indexOf('/'));
@@ -419,5 +418,5 @@ try {
 	link = userpref.recent;
 }
 setTimeout(() => {
-	loadthepage('http://' + link);
+	loadthepage(`${httptype}${link}`);
 }, 100);

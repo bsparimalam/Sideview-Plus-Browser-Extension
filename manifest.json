@@ -1,7 +1,7 @@
 {
   "name": "Mini-Browser for Multitasking",
   "short_name": "MiniBrowser",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "🔎📖 Use web utilities/tools without leaving the tab",
   "browser_action": {
     "default_popup": "index.html",
@@ -16,6 +16,23 @@
       "512": "./icons/icon-512.png"
     },
     "default_title": "Mini-Browser for Multitasking"
+  },
+  "sidebar_action": {
+    // Required
+    "default_icon": {
+      "16": "./icons/icon-16.png",
+      "19": "./icons/icon-19.png",
+      "32": "./icons/icon-32.png",
+      "38": "./icons/icon-38.png",
+      "48": "./icons/icon-48.png",
+      "96": "./icons/icon-96.png",
+      "128": "./icons/icon-128.png",
+      "512": "./icons/icon-512.png"
+    },
+    // Optional; shown in tooltip
+    "default_title" : "Mini-Browser for Multitasking",
+    // Required
+    "default_panel": "./engine/index.html"
   },
   "icons": {
       "16": "./icons/icon-16.png",
