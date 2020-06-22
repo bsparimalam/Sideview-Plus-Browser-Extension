@@ -45,13 +45,13 @@
       "./index.html",
       "./style.css",
       "./scripts.js",
-      "./core/index.html",
-      "./core/scripts.js",
-      "./core/style.css",
-      "./core/loading.html",
-      "./core/loading.css",
-      "./core/loading.gif",
-      "./core/loading-dark.gif"
+      "./engine/index.html",
+      "./engine/scripts.js",
+      "./engine/style.css",
+      "./engine/loading.html",
+      "./engine/loading.css",
+      "./engine/loading.gif",
+      "./engine/loading-dark.gif"
     ]
   },
   "background": {
