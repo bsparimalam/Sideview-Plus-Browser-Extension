@@ -19,13 +19,14 @@ or just use your favorite web utility/tool¹, without leaving the tab.
 
 Add it to the start:
 
-//chrome visit: chrome-extension://kaophmcmpakgkbcgppgaplommnhbokbg/engine/engine.html?minibrowse=https://google.com/
+//chrome visit: chrome-extension://kaophmcmpakgkbcgppgaplommnhbokbg/engine/engine.html?minibrowse=https://google.com
 
-1) visit: chrome-extension://cgkfhhagdgcjcjdkcbpohhhidlibblkn/engine/engine.html?minibrowse=https://google.com/
-2) settings > more tools > create shortcuts > check 'open as window' > click ok
+‣  visit: chrome-extension://cgkfhhagdgcjcjdkcbpohhhidlibblkn/engine/engine.html?minibrowse=https://google.com
+‣  settings > more tools > create shortcuts > check 'open as window' > click ok
 
-//edge
-1) visit: extension://ngocckbdkjpgidpachimbiaphcgjgoaa/engine/engine.html?minibrowse=https://google.com/
-2) settings > apps > install this site as an App > click ok
+//edge extension://kaophmcmpakgkbcgppgaplommnhbokbg/engine/engine.html?minibrowse=https://google.com
 
+‣  visit: extension://ngocckbdkjpgidpachimbiaphcgjgoaa/engine/engine.html?minibrowse=https://google.com
+‣  settings > apps > install this site as an App > click ok
 
+Link to privacy policy https://bhar.app/privacy/minibrowser.html

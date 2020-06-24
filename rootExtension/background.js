@@ -6,10 +6,8 @@ temp = temp.split('/');
 let host = temp[0];
 
 let minibrowser = {
-	"width": 400,
+	"width": 500,
 	"height": 700,
-	"left": 1000,
-	"top": 200,
 	"type": "popup",
 	"state": "normal"
 }
