@@ -57,8 +57,8 @@ if (host === 'Firefox') {
 	chrome.contextMenus.create(newsidebar);
 
 	chrome.contextMenus.onClicked.addListener((click) => {
-		minibrowser.url = "./engine/index.html";
-		sidebar.panel = "./engine/index.html";
+		minibrowser.url = "./engine/engine.html";
+		sidebar.panel = "./engine/engine.html";
 		if ((click.menuItemId ==='searchinpopup') && click.selectionText) {
 			minibrowser.url += '?minibrowse=' + click.selectionText;
 			chrome.windows.create(minibrowser);
@@ -94,7 +94,7 @@ if (host === 'Firefox') {
 	chrome.contextMenus.create(newpopup);
 
 	chrome.contextMenus.onClicked.addListener((click) => {
-		minibrowser.url = "./engine/index.html";
+		minibrowser.url = "./engine/engine.html";
 		console.log(opr.sidebarAction);
 		if ((click.menuItemId ==='searchinpopup') && click.selectionText) {
 			minibrowser.url += '?minibrowse=' + click.selectionText;
@@ -116,8 +116,8 @@ if (host === 'Firefox') {
 	chrome.contextMenus.create(newpopup);
 
 	chrome.contextMenus.onClicked.addListener((click) => {
-		minibrowser.url = "./engine/index.html";
-		sidebar.panel = "./engine/index.html";
+		minibrowser.url = "./engine/engine.html";
+		sidebar.panel = "./engine/engine.html";
 		if ((click.menuItemId ==='searchinpopup') && click.selectionText) {
 			minibrowser.url += '?minibrowse=' + click.selectionText;
 			chrome.windows.create(minibrowser);

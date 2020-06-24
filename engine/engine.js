@@ -9,6 +9,7 @@ let link;
 let url;
 let searchengine;
 let httptype;
+let standardplaceholder;
 
 storagename = 'minibrowser.1.0';
 userpref = JSON.parse(window.localStorage.getItem(storagename));

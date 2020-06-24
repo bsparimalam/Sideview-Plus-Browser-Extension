@@ -28,7 +28,7 @@
 
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
   <AppDomains>
-    <AppDomain>https://bhar.app/minibrowser/index.html</AppDomain>
+    <AppDomain>https://bhar.app/minibrowser/office.html</AppDomain>
   </AppDomains>
   <!--End Basic Settings. -->
 
@@ -39,7 +39,7 @@
     <Host Name="Presentation"/>
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://bhar.app/minibrowser/index.html" />
+    <SourceLocation DefaultValue="https://bhar.app/minibrowser/office.html" />
   </DefaultSettings>
   <!-- End TaskPane Mode integration.  -->
 
@@ -246,8 +246,8 @@
       </bt:Images>
       <bt:Urls>
         <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812" />
-        <bt:Url id="Commands.Url" DefaultValue="https://bhar.app/minibrowser/index.html" />
-        <bt:Url id="Taskpane.Url" DefaultValue="https://bhar.app/minibrowser/index.html" />
+        <bt:Url id="Commands.Url" DefaultValue="https://bhar.app/minibrowser/office.html" />
+        <bt:Url id="Taskpane.Url" DefaultValue="https://bhar.app/minibrowser/office.html" />
       </bt:Urls>
       <!-- ShortStrings max characters==125. -->
       <bt:ShortStrings>
