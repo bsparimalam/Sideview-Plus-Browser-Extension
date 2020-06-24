@@ -58,9 +58,9 @@ iframe {
 	grid-row: span 1;
 	grid-column: span 1;
 }
-#browser {
+/*#browser {
 	display: none;
-}
+}*/
 button, input {
 	grid-row: span 1;
 	grid-column: span 1;

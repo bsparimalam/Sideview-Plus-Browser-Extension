@@ -17,10 +17,15 @@ or just use your favorite web utility/tool¹, without leaving the tab.
 
 ¹some websites refuse to load inside the extension. Implementation of workarounds are not planned.
 
-Justification for Permissions:
-utilized to modify user-agent to simulate a mobile device and expand accessible sites. Essential for user experience. Activated only after user activates the extension, shutdown as soon as the extension is closed.
+Add it to the start:
 
-Justification for remote requests:
-No extension component is remotely loaded. Network requests are made only to the websites users request explicitly, which is run inside a secure sandbox without any interaction with the page content.
+//chrome visit: chrome-extension://kaophmcmpakgkbcgppgaplommnhbokbg/engine/engine.html?minibrowse=https://google.com/
 
-utilized to provide options to initiate a search or navigate in a small window or simply open a new one
+1) visit: chrome-extension://cgkfhhagdgcjcjdkcbpohhhidlibblkn/engine/engine.html?minibrowse=https://google.com/
+2) settings > more tools > create shortcuts > check 'open as window' > click ok
+
+//edge
+1) visit: extension://ngocckbdkjpgidpachimbiaphcgjgoaa/engine/engine.html?minibrowse=https://google.com/
+2) settings > apps > install this site as an App > click ok
+
+

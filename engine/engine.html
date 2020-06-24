@@ -1,10 +1,13 @@
 <!DOCTYPE  html>
 <html lang="en">
 <head>
-	<!-- site descrition -->
-	<title>MiniBrowser</title>
+	<title>MiniBrowser for Multitasking</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Use web utilities/tools without leaving the tab. Dictionary lookup, quick calculation, emoji search, unicode search, wikipedia lookup, or just use your favorite web utility/tool.">
+	<meta name="keywords" content="Dictionary lookup, Quick calculation, Currency conversion, Emoji search, Song lyrics lookup, Unicode search, Wikipedia lookup, Text Formatting">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="./icon-512.png" type="image/png" sizes="512x512">
 	<link rel="stylesheet" href="./engine.css">
 </head>
 <body id="body">
@@ -33,8 +36,7 @@
 		<input id="addressbox" type="text" autofocus name="input box" spellcheck="false" list="mostused" >
 		<datalist id="mostused"></datalist>
 	</div>
-	<iframe id="loading" sandbox src="./loading.html" ></iframe>
-	<iframe id="browser" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+	<iframe id="browser" sandbox="allow-scripts allow-forms allow-same-origin" src="./loading.html"></iframe>
     <script async src='./engine.js'></script>
 </body>
 </html>

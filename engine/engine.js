@@ -1,7 +1,6 @@
 addressbar = document.getElementById('addressbar');
 addressbox = document.getElementById('addressbox');
 mostusedlist = document.getElementById('mostused');
-loading = document.getElementById('loading');
 browser = document.getElementById('browser');
 let isminiloading;
 let ismousein;
@@ -74,19 +73,11 @@ if (isextension) {
 
 	chrome.webRequest.onHeadersReceived.addListener(
 		details => {
-			for(let i = 0; i < details.responseHeaders.length; ++i) {
-				if (((details.responseHeaders[i].name.match(/x-frame-options|x-xss-protection/gi) !== null ) || (details.responseHeaders[i].value.match(/frame-ancestors/gi) !== null)) && (isminiloading || ismousein)) {
-					details.responseHeaders.splice(i, 1);
-				}
-			}
-			for(let i = 0; i < details.responseHeaders.length; ++i) {
-				if (((details.responseHeaders[i].name.match(/x-frame-options|x-xss-protection/gi) !== null ) || (details.responseHeaders[i].value.match(/frame-ancestors/gi) !== null)) && (isminiloading || ismousein)) {
-					details.responseHeaders.splice(i, 1);
-				}
-			}
-			for(let i = 0; i < details.responseHeaders.length; ++i) {
-				if (((details.responseHeaders[i].name.match(/x-frame-options|x-xss-protection/gi) !== null ) || (details.responseHeaders[i].value.match(/frame-ancestors/gi) !== null)) && (isminiloading || ismousein)) {
-					details.responseHeaders.splice(i, 1);
+			for (let loops=0; loops < 5; ++loops) {
+				for(let i = 0; i < details.responseHeaders.length; ++i) {
+					if (((details.responseHeaders[i].name.match(/x-frame-options|x-xss-protection/gi) !== null ) || (details.responseHeaders[i].value.match(/frame-ancestors/gi) !== null)) && (isminiloading || ismousein)) {
+						details.responseHeaders.splice(i, 1);
+					}
 				}
 			}
 			return {responseHeaders: details.responseHeaders};
@@ -307,8 +298,6 @@ function striptoname(url) {
 }
 function loadthepage(url) {
 	isminiloading = true;
-	browser.style.display = 'none';
-	loading.style.display = 'grid';
 	url = strip(url);
 	if ((url.indexOf('.') === -1) && searchengine) {
 		browser.src = `${httptype}${searchengine}.com/search?q=${url}`;
@@ -407,8 +396,6 @@ document.addEventListener('mouseout', event => {
 	ismousein = false;
 });
 browser.addEventListener('load', event => {
-	browser.style.display = 'grid';
-	loading.style.display = 'none';
 	isminiloading = false;
 });
 try {
