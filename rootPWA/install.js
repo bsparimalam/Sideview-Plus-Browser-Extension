@@ -1,4 +1,4 @@
-var appversion = "v0.2.1";
+var appversion = "v0_2_1";
 const expectedCaches = ['minibrowser-' + appversion ];
 const files2cache = [
     './',
@@ -13,6 +13,7 @@ const files2cache = [
     './engine/engine.html',
     './engine/engine.css',
     './engine/engine.js',
+    './engine/favicon.ico',
     './engine/back.png',
     './engine/back-dark.png',
     './engine/forward.png',
