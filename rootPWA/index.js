@@ -9,8 +9,3 @@ if ('serviceWorker' in navigator) {
 } else {
 	console.log('serice worker not supported');
 }
-// usage metric scripts
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'UA-166908735-1');

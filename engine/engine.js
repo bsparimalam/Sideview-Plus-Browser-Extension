@@ -296,10 +296,20 @@ function striptoname(url) {
 	}
 	return url;
 }
+// let searchdict = {
+// 	"character": [ '\+', '\/', '\&', '\|', '\{', '\}', '\[', '\]', '\^', '\?', '\:' ],
+// 	"replacement": [ '%2B', '%2F', '%26', '%7C', '%7B', '%7D', '%5B', '%5D', '%5E', '%3F', '%3A' ]
+// };
 function loadthepage(url) {
 	isminiloading = true;
 	url = strip(url);
+	let tempregex;
 	if ((url.indexOf('.') === -1) && searchengine) {
+		// for (let i=0; i < searchdict.character.length; i++) {
+		// 	tempregex = new RegExp(searchdict.character[i], "g");
+		// 	url = url.replace(tempregex, searchdict.replacement[i]);
+		// }
+		url = url.replace(/\+/gi, '%2B').replace(/\//gi, '%2F').replace(/\^/gi, '%5E');
 		browser.src = `${httptype}${searchengine}.com/search?q=${url}`;
 		setTimeout(() => {
 			addressbox.placeholder = `${searchengine}.com`;

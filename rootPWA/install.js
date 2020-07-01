@@ -13,7 +13,6 @@ const files2cache = [
     './engine/engine.html',
     './engine/engine.css',
     './engine/engine.js',
-    './engine/favicon.ico',
     './engine/back.png',
     './engine/back-dark.png',
     './engine/forward.png',

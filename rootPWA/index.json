@@ -1,7 +1,8 @@
 {
   "name": "MiniBrowser for Multitasking",
   "short_name": "MiniBrowser",
-  "version": "0.2.0",
+  "description": "Use web utilities/tools without leaving the tab. Dictionary lookup, quick calculation, emoji search, unicode search, wikipedia lookup, or just use your favorite web utility/tool.",
+  "version": "0.2.2",
   "lang": "en-US",
   "start_url": "./",
   "display": "fullscreen",
@@ -17,17 +18,42 @@
   ],
   "screenshots" : [
     {
-      "src": "./screenshots/1-640x400.png",
+      "src": "./screenshots/640x400_1.png",
       "sizes": "640x400",
       "type": "image/png"
     },
     {
-      "src": "./screenshots/2-640x400.png",
+      "src": "./screenshots/640x400_2.png",
       "sizes": "640x400",
       "type": "image/png"
     },
     {
-      "src": "./screenshots/3-640x400.png",
+      "src": "./screenshots/640x400_3.png",
+      "sizes": "640x400",
+      "type": "image/png"
+    },
+    {
+      "src": "./screenshots/640x400_4.png",
+      "sizes": "640x400",
+      "type": "image/png"
+    },
+    {
+      "src": "./screenshots/640x400_5.png",
+      "sizes": "640x400",
+      "type": "image/png"
+    },
+    {
+      "src": "./screenshots/640x400_6.png",
+      "sizes": "640x400",
+      "type": "image/png"
+    },
+    {
+      "src": "./screenshots/640x400_7.png",
+      "sizes": "640x400",
+      "type": "image/png"
+    },
+    {
+      "src": "./screenshots/640x400_8.png",
       "sizes": "640x400",
       "type": "image/png"
     }
