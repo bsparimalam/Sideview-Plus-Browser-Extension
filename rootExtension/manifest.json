@@ -1,69 +1,43 @@
 {
-  "name": "MiniBrowser for Multitasking",
-  "short_name": "MiniBrowser",
-  "version": "0.2.1",
-  "description": "Use web utilities/tools without leaving the tab",
-  "browser_action": {
-    "default_popup": "extension.html",
-    "default_icon": {
-      "16": "./icons/icon-16.png",
-      "19": "./icons/icon-19.png",
-      "32": "./icons/icon-32.png",
-      "38": "./icons/icon-38.png",
-      "48": "./icons/icon-48.png",
-      "56": "./icons/icon-56.png",
-      "64": "./icons/icon-64.png",
-      "80": "./icons/icon-80.png",
-      "96": "./icons/icon-96.png",
-      "112": "./icons/icon-112.png",
-      "128": "./icons/icon-128.png",
-      "152": "./icons/icon-152.png",
-      "300": "./icons/icon-300.png",
-      "512": "./icons/icon-512.png"
-    },
-    "default_title": "MiniBrowser for Multitasking"
-  },
-  "sidebar_action": {
-    "default_icon": {
-      "16": "./icons/icon-16.png",
-      "19": "./icons/icon-19.png",
-      "32": "./icons/icon-32.png",
-      "38": "./icons/icon-38.png",
-      "48": "./icons/icon-48.png",
-      "56": "./icons/icon-56.png",
-      "64": "./icons/icon-64.png",
-      "80": "./icons/icon-80.png",
-      "96": "./icons/icon-96.png",
-      "112": "./icons/icon-112.png",
-      "128": "./icons/icon-128.png",
-      "152": "./icons/icon-152.png",
-      "300": "./icons/icon-300.png",
-      "512": "./icons/icon-512.png"
-    },
-    "default_title" : "MiniBrowser for Multitasking",
-    "default_panel": "./engine/engine.html"
-  },
+  "name": "Reflow for Multitasking",
+  "short_name": "Reflow",
+  "version": "1.0.0",
+  "description": "Do quick lookups and checkout references without leaving the tab. Automatically load mobile websites in narrow windows",
   "icons": {
-      "16": "./icons/icon-16.png",
-      "19": "./icons/icon-19.png",
-      "32": "./icons/icon-32.png",
-      "38": "./icons/icon-38.png",
-      "48": "./icons/icon-48.png",
-      "56": "./icons/icon-56.png",
-      "64": "./icons/icon-64.png",
-      "80": "./icons/icon-80.png",
-      "96": "./icons/icon-96.png",
-      "112": "./icons/icon-112.png",
-      "128": "./icons/icon-128.png",
-      "152": "./icons/icon-152.png",
-      "300": "./icons/icon-300.png",
-      "512": "./icons/icon-512.png"
+    "16": "./icons/icon-16.png",
+    "19": "./icons/icon-19.png",
+    "32": "./icons/icon-32.png",
+    "38": "./icons/icon-38.png",
+    "48": "./icons/icon-48.png",
+    "56": "./icons/icon-56.png",
+    "64": "./icons/icon-64.png",
+    "80": "./icons/icon-80.png",
+    "96": "./icons/icon-96.png",
+    "112": "./icons/icon-112.png",
+    "128": "./icons/icon-128.png",
+    "152": "./icons/icon-152.png",
+    "300": "./icons/icon-300.png",
+    "512": "./icons/icon-512.png"
   },
-  "sandbox": {
-     "pages": [
-      "./extension.html",
-      "./engine/engine.html"
-    ]
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+    "16": "./icons/icon-16.png",
+    "19": "./icons/icon-19.png",
+    "32": "./icons/icon-32.png",
+    "38": "./icons/icon-38.png",
+    "48": "./icons/icon-48.png",
+    "56": "./icons/icon-56.png",
+    "64": "./icons/icon-64.png",
+    "80": "./icons/icon-80.png",
+    "96": "./icons/icon-96.png",
+    "112": "./icons/icon-112.png",
+    "128": "./icons/icon-128.png",
+    "152": "./icons/icon-152.png",
+    "300": "./icons/icon-300.png",
+    "512": "./icons/icon-512.png"
+  },
+  "default_title": "Reflow for Multitasking"
   },
   "background": {
     "scripts": ["./background.js"]
@@ -72,9 +46,10 @@
     "webRequest",
     "webRequestBlocking",
     "<all_urls>",
-    "contextMenus",
-    "tabs"
+    "webNavigation",
+    "tabs",
+    "contextMenus"
   ],
-  "content_security_policy": "default-src 'self'; frame-src https://* http://*;",
+  "content_security_policy": "default-src 'self';",
   "manifest_version": 2
 }

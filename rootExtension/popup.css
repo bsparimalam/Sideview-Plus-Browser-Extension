@@ -1,0 +1,91 @@
+
+@media (prefers-color-scheme: no-preference), (prefers-color-scheme: light) {
+	h1, p {
+		color: #101a20;
+	}
+	html, body, div, h1, p {
+		background-color: #c1d5e0;
+	}
+}
+@media (prefers-color-scheme: dark) {
+	h1, p {
+		color: #c1d5e0;
+	}
+	html, body, div, h1, p {
+		background-color: #101a20;
+	}
+}
+h1, p {
+	font-family: system-ui;
+}
+html {
+	margin: 0;
+	padding: 0;
+	border-style: none;
+	height: 4cm;
+	width: 6cm;
+	display: grid;
+	grid-template-rows: 100%;
+	grid-template-columns: 100%;
+	overflow: hidden;
+}
+body {
+	margin: 0;
+	padding: 0;
+	border-style: none;
+	grid-row: span 1;
+	grid-column: span 1;
+	height: 100%;
+	width: 100%;
+	display: grid;
+	grid-template-columns: 100%;
+	grid-template-rows: 25% 20% 25% 30%;
+	overflow: hidden;
+}
+h1 {
+	grid-row: span 1;
+	grid-column: span 1;
+	font-size: 1.2rem;
+	text-align: center;
+}
+div {
+	grid-row: span 1;
+	grid-column: span 1;
+	display: grid;
+	grid-template-columns: 80% 20%;
+	grid-template-rows: 100%;
+	margin: auto;
+	padding: 0;
+	border-style: none;
+	height: 100%;
+	width: 100%;
+}
+p {
+	grid-row: span 1;
+	grid-column: span 1;
+	text-align: center;
+	font-size: 1rem;
+	margin: auto;
+	filter: opacity(0.70);
+	overflow: hidden;
+}
+#set-cut-off {
+	grid-row: span 1;
+	grid-column: span 1;
+	margin-left: 10%;
+	margin-top: 3%;
+	width: 80%;
+	height: 100%;	
+}
+#enable-disable {
+	grid-row: span 1;
+	grid-column: span 1;
+	width: 70%;
+	height: 100%;
+}
+::-webkit-scrollbar {
+	display: none !important;
+}
+:focus {
+	outline: none !important;
+}

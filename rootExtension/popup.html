@@ -1,0 +1,19 @@
+<!DOCTYPE  html>
+<html lang="en">
+<head>
+	<title>Reflow for Multitasking</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./popup.css">
+</head>
+<body>
+	<h1>Reflow width cut-off</h1>
+	<input id="set-cut-off" type="range" name="set width Cut-off" min="0.0" max="1.0" step="0.1" value="0.5">
+	<h1 >Reflow this domain</h1>
+	<div>
+		<p id="domain-name">example.com</p>
+		<input id="enable-disable" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
+	</div>
+    <script async src='./popup.js'></script>
+</body>
+</html>
