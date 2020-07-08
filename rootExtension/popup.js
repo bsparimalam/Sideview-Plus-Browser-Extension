@@ -80,9 +80,18 @@ function setuserpref() {
 			websiteswitch.value = 1;
 			domainswitch.value = 1;
 		}
+		bugreport.href = `mailto:support@bhar.app?subject=Reflow - bug report - ${website}&body=Hi, I found an issue with the extension. Issue description: `;
+		usage.innerText = userpref.totalreflows + ' pages reflowed';
 		console.log(userpref);
 	});
 }
+// receive user preferences
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	userpref = request;
+	console.log(`text received`, userpref);
+	setuserpref();
+});
+
 // globals
 websitename = document.getElementById('website');
 host = gethost();
@@ -92,6 +101,8 @@ domainswitch = document.getElementById('domain-switch');
 widthslider = document.getElementById('width-slider');
 schematic = document.getElementById('schematic');
 reloadbutton = document.getElementById('reload');
+usage =  document.getElementById('usage');
+bugreport = document.getElementById('bugreport');
 storagename = 'reflow.1.0';
 userpref = loaduserpref();
 setuserpref();

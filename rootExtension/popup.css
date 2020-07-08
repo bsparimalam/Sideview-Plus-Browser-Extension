@@ -1,6 +1,6 @@
 
 @media (prefers-color-scheme: no-preference), (prefers-color-scheme: light) {
-	h1, p {
+	h1, p , a, a:link, a:visited, a:focus, a:hover, a:active {
 		color: #101a20;
 	}
 	html, body, div, h1, p, picture, img {
@@ -15,7 +15,7 @@
 	}
 }
 @media (prefers-color-scheme: dark) {
-	h1, p {
+	h1, p, a, a:link, a:visited, a:focus, a:hover, a:active {
 		color: #c1d5e0;
 	}
 	html, body, div, h1, p  {
@@ -44,11 +44,11 @@ body {
 	margin: 0;
 	padding: 0;
 	border-style: none;
-	height: 11.7cm;
+	height: 12.7cm;
 	width: 7cm;
 	display: grid;
 	grid-template-columns: 100%;
-	grid-template-rows: 0.2cm 1cm 3.5cm 1cm 1cm 1cm 2cm 2cm;
+	grid-template-rows: 0.2cm 1cm 3.5cm 1cm 1cm 1cm 2cm 2cm 1cm;
 	overflow: hidden;
 }
 h1 {
@@ -82,7 +82,7 @@ p {
 	font-size: 1rem;
 	margin: auto;
 	margin-top: 0.15cm;
-	filter: opacity(0.70);
+	filter: opacity(1);
 	overflow: hidden;
 	text-overflow: hidden;
 }
@@ -114,6 +114,12 @@ p {
 	font-family: system-ui;
 	font-size: 1.2rem;
 	font-weight: 700;
+}
+.subtext {
+	font-size: 0.8rem;
+}
+a, a:link, a:visited, a:focus, a:hover, a:active {
+	text-decoration: none;
 }
 ::-webkit-scrollbar {
 	display: none !important;

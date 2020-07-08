@@ -82,14 +82,14 @@ function setuserpref() {
 		}
 	});
 }
-
-windowtop = 0.05;
-windowleft = 0.55;
-windowwidth = 0.4;
-windowheight = 0.9;
-storagename = 'reflow.1.0';
+// receive user preferences
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	userpref = request;
+	console.log(`text received`, userpref);
+});
 
 // global variables
+storagename = 'reflow.1.0';
 host = gethost();
 targetua = gettargetua();
 screenwidth =  window.screen.width;
@@ -98,21 +98,23 @@ tabwidth = undefined;
 taburl = undefined;
 reflowlist = {};
 userpref = JSON.parse(window.localStorage.getItem(storagename));
+
 if (userpref === null) {
 	userpref = {
+		"miniwindow": {
+			'top': Math.round(screenheight*0.05),
+			'left': Math.round(screenwidth*0.55),
+			'width': Math.round(screenwidth*0.40),
+			'height': Math.round(screenheight*0.90)
+		},
 		"disabledon": ['facebook.com', 'messenger.com', 'microsoft.com', 'whatsapp.com', 'devtools://devtools', "sfu.ca", 'youtube.com',  "extensions", "settings", "bookmarks", "history", "newtab" ],
-		"widthcutoff": 0.5
+		"widthcutoff": 0.5,
+		"totalreflows": 0
 	}
 	window.localStorage.setItem(storagename, JSON.stringify(userpref));
 	console.log(`userpref=${userpref}`);
 }
 console.log(`host=${host}; targetua=${targetua}; screenwidth=${screenwidth}; screenheight=${screenheight}; widthcutoff=${widthcutoff}; userpref=${loaduserpref()}`);
-
-// receive user preferences
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	userpref = request;
-	console.log(`text received`, userpref);
-});
 
 // setting user agent on request
 chrome.webRequest.onBeforeSendHeaders.addListener(
@@ -151,17 +153,22 @@ chrome.webNavigation.onCommitted.addListener(details => {
 			tabwidth = tab.width;
 			let root = url2root(taburl);
 			let domain = url2domain(taburl);
-			console.log(`request header: widthtest=${(tabwidth < widthcutoff())}; domaintest=${(userpref.disabledon.indexOf(stripprotocol(url2domain(taburl))) === -1)}; websitetest=${(userpref.disabledon.indexOf(stripprotocol(url2root(taburl))) === -1)}; mobilesitetest=${(taburl.match(/\/m\.|\.m\.|\/mobile\./) !== null)}; cachetest=${(!reflowlist[tabid] || ((reflowlist[tabid].status === 'ON') && (reflowlist[tabid].root === root) && (tabwidth > widthcutoff())) || ((reflowlist[tabid].status === 'OFF') && (reflowlist[tabid].root === root) && (tabwidth < widthcutoff())))}`);
+			// console.log(`request header: widthtest=${(tabwidth < widthcutoff())}; domaintest=${(userpref.disabledon.indexOf(stripprotocol(url2domain(taburl))) === -1)}; websitetest=${(userpref.disabledon.indexOf(stripprotocol(url2root(taburl))) === -1)}; mobilesitetest=${(taburl.match(/\/m\.|\.m\.|\/mobile\./) !== null)}; cachetest=${(!reflowlist[tabid] || (reflowlist[tabid].root !== root) || ((reflowlist[tabid].status === 'ON') && (tabwidth > widthcutoff())) || ((reflowlist[tabid].status === 'OFF') && (tabwidth < widthcutoff())))}`);
 			//domain upgrade
 			if ((tabwidth > widthcutoff()) 
 				&& (root.match(/\/m\.|\.m\.|\/mobile\./) !== null)) {
 				let desktopurl = taburl.replace(/m\.|mobile\./, '');
 				chrome.tabs.update( tabid, { url: desktopurl } );
 			// cache bypass
-			} else if (!reflowlist[tabid] || ((reflowlist[tabid].status === 'ON') && (reflowlist[tabid].root === root) && (tabwidth > widthcutoff())) || ((reflowlist[tabid].status === 'OFF') && (reflowlist[tabid].root === root) && (tabwidth < widthcutoff()))) {
+			} else if (!reflowlist[tabid] || (reflowlist[tabid].root !== root) || ((reflowlist[tabid].status === 'ON') && (tabwidth > widthcutoff())) || ((reflowlist[tabid].status === 'OFF') && (tabwidth < widthcutoff()))) {
 				chrome.tabs.reload(tabid, { "bypassCache": true });
+				if (tabwidth < widthcutoff()) {
+					userpref.totalreflows -= 1;
+				}
 			}
 			if (tabwidth < widthcutoff()) {
+				userpref.totalreflows += 1;
+				saveuserpref();
 				reflowlist[tabid] = {
 					"status": 'ON',
 					'domain': domain,
@@ -193,6 +200,7 @@ chrome.webNavigation.onCommitted.addListener(details => {
 		});
 	}
 });
+
 // () => {
 // 	chrome.tabs.query({active: true, currentWindow: true}, tabs => {
 // 		console.log('interval', tabs);
@@ -214,6 +222,7 @@ chrome.webNavigation.onCommitted.addListener(details => {
 // 		}
 // 	});
 // }
+
 // CONTEXT MENU
 // define the options 
 let linkinpopup = {
@@ -245,12 +254,13 @@ if (host === 'Firefox') {
 } else {
 	minibrowser.focused = true;
 }
-minibrowser.top = Math.round(screenheight*windowtop);
-minibrowser.left = Math.round(screenwidth*windowleft);
-minibrowser.width = Math.round(screenwidth*windowwidth);
-minibrowser.height = Math.round(screenheight*windowheight);
+
 // respond to the user request
 chrome.contextMenus.onClicked.addListener((click) => {
+	minibrowser.top = userpref.miniwindow.top;
+	minibrowser.left = userpref.miniwindow.left;
+	minibrowser.width = userpref.miniwindow.width;
+	minibrowser.height = userpref.miniwindow.height;
 	if ((click.menuItemId ==='searchinpopup') && click.selectionText) {
 		minibrowser.url = 'https://google.com/search?q=' + click.selectionText;
 		chrome.windows.create(minibrowser);
@@ -261,4 +271,17 @@ chrome.contextMenus.onClicked.addListener((click) => {
 		minibrowser.url = 'https://google.com';
 		chrome.windows.create(minibrowser);
 	}
+	chrome.windows.getCurrent(details => {
+		setTimeout(() => {
+			try {
+				chrome.windows.get(details.id, details => {
+					userpref.miniwindow.top = details.top;
+					userpref.miniwindow.left = details.left;
+					userpref.miniwindow.width = details.width;
+					userpref.miniwindow.height = details.height;
+					saveuserpref();
+				});
+			} catch { }
+		}, 10000);
+	});
 });
