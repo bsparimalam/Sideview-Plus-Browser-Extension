@@ -1,7 +1,7 @@
 
-Do quick lookups and checkout references without leaving the tab. Automatically load mobile websites in narrow windows
+Improve the web layout on narrow windows; multitask with ease; do quick lookups and checkout references without leaving the tab.
 
 
 ‣ Do web search, dictionary lookup, and checkout links without leaving the tab
-‣ Automatically load mobile version of the webpage in narrow windows
+‣ Automatically load mobile version of the webpage with improved layout in narrow windows
 ‣ Simple and intuitive controls

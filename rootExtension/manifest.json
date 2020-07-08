@@ -1,8 +1,8 @@
 {
   "name": "Reflow for Multitasking",
   "short_name": "Reflow",
-  "version": "1.0.0",
-  "description": "Do quick lookups and checkout references without leaving the tab. Automatically load mobile websites in narrow windows",
+  "version": "1.0.4",
+  "description": "Improve the web layout on narrow windows; multitask with ease; do quick lookups and checkout references without leaving the tab.",
   "icons": {
     "16": "./icons/icon-16.png",
     "19": "./icons/icon-19.png",
