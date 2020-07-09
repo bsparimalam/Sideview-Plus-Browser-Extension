@@ -113,6 +113,10 @@ if (userpref === null) {
 	}
 	window.localStorage.setItem(storagename, JSON.stringify(userpref));
 	console.log(`userpref=${userpref}`);
+} else {
+	if(!userpref.totalreflows) {
+		userpref.totalreflows = 0;
+	}
 }
 console.log(`host=${host}; targetua=${targetua}; screenwidth=${screenwidth}; screenheight=${screenheight}; widthcutoff=${widthcutoff}; userpref=${loaduserpref()}`);
 
@@ -275,11 +279,13 @@ chrome.contextMenus.onClicked.addListener((click) => {
 		setTimeout(() => {
 			try {
 				chrome.windows.get(details.id, details => {
-					userpref.miniwindow.top = details.top;
-					userpref.miniwindow.left = details.left;
-					userpref.miniwindow.width = details.width;
-					userpref.miniwindow.height = details.height;
-					saveuserpref();
+					if (details) {
+						userpref.miniwindow.top = details.top;
+						userpref.miniwindow.left = details.left;
+						userpref.miniwindow.width = details.width;
+						userpref.miniwindow.height = details.height;
+						saveuserpref();
+					}
 				});
 			} catch { }
 		}, 10000);

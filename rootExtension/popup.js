@@ -81,7 +81,7 @@ function setuserpref() {
 			domainswitch.value = 1;
 		}
 		bugreport.href = `mailto:support@bhar.app?subject=Reflow - bug report - ${website}&body=Hi, I found an issue with the extension. Issue description: `;
-		usage.innerText = userpref.totalreflows + ' pages reflowed';
+		usage.innerText = Math.floor(userpref.totalreflows/2) + ' pages reflowed';
 		console.log(userpref);
 	});
 }
