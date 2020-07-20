@@ -1,6 +1,0 @@
-Windows Registry Editor Version 5.00
-
-[HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\WEF\TrustedCatalogs\{-random-GUID-here-}]
-"Id"="{fc0b1c1c-e4b7-4441-833a-7b9cb796a7c0}"
-"Url"="https://bhar.app/minibrowser"
-"Flags"=dword:00000001

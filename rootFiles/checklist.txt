@@ -1,3 +1,0 @@
-
-## Chrome Extension, Edge Extension
-- [ ] remove sidebar_action
