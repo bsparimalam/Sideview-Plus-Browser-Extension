@@ -1,7 +1,7 @@
 {
   "name": "Reflow for Multitasking",
   "short_name": "Reflow",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Improve the web layout on narrow windows; multitask with ease; do quick lookups and checkout references without leaving the tab.",
   "icons": {
     "16": "./icons/icon-16.png",
@@ -40,7 +40,7 @@
   "default_title": "Reflow for Multitasking"
   },
   "background": {
-    "scripts": ["./shared.js", "./reflow.js"]
+    "scripts": ["./reflow.js"]
   },
   "permissions": [
     "webRequest",

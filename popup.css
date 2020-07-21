@@ -65,7 +65,7 @@ body {
 	width: 7cm;
 	display: grid;
 	grid-template-columns: 100%;
-	grid-template-rows: 0.2cm 1cm 3.5cm 1cm 1cm 0.7cm 3cm 2cm 1cm;
+	grid-template-rows: 0.3cm 1cm 3.5cm 1cm 1cm 0.7cm 3cm 2cm 1cm;
 	overflow: hidden;
 }
 h1 {
@@ -74,6 +74,10 @@ h1 {
 	font-size: 1.2rem;
 	text-align: center;
 	margin-top: 0.1cm;
+}
+#version {
+	font-weight: 500;
+	font-size: 0.7rem;
 }
 picture, img {
 	margin: auto;
