@@ -1,9 +1,6 @@
 
-//loading user preference to popup
 function setuserpref() {
 	chrome.tabs.query({active:true, currentWindow:true}, tabs => {
-		console.log(tabs[0].url);
-		console.log(tabs[0]);
 		let page = stripprotocol(url2page(tabs[0].url));
 		let website = stripprotocol(url2root(tabs[0].url));
 		let domain = stripprotocol(url2domain(tabs[0].url));
@@ -13,7 +10,6 @@ function setuserpref() {
 		domainname.title = domain;
 		domainname.innerText = domain.slice(0, 24);
 		widthslider.value = userpref.widthcutoff;
-		console.log((page === website), (website === domain));
 		if (page === website) {
 			pageswitch.disabled = true;
 			pagename.style.color = 'var(--disabled)';
@@ -62,47 +58,46 @@ setuserpref();
 document.addEventListener('change', event => {
 	switch(event.target.id) {
 		case 'width-slider':
-			localpref.widthcutoff = parseFloat(event.target.value);
+			userpref.widthcutoff = parseFloat(event.target.value);
 			break;
 		case 'page-switch':
 			if (event.target.value === '0') {
-				localpref.disabledon.push(pagename.title);
+				userpref.disabledon.push(pagename.title);
 			} else {
-				while (localpref.disabledon.indexOf(pagename.title) !== -1) {
-					localpref.disabledon.splice(localpref.disabledon.indexOf(pagename.title), 1);
+				while (userpref.disabledon.indexOf(pagename.title) !== -1) {
+					userpref.disabledon.splice(userpref.disabledon.indexOf(pagename.title), 1);
 				}
-				while (localpref.disabledon.indexOf(websitename.title) !== -1) {
-					localpref.disabledon.splice(localpref.disabledon.indexOf(websitename.title), 1);
+				while (userpref.disabledon.indexOf(websitename.title) !== -1) {
+					userpref.disabledon.splice(userpref.disabledon.indexOf(websitename.title), 1);
 				}
-				while (localpref.disabledon.indexOf(domainname.title) !== -1) {
-					localpref.disabledon.splice(localpref.disabledon.indexOf(domainname.title), 1);
+				while (userpref.disabledon.indexOf(domainname.title) !== -1) {
+					userpref.disabledon.splice(userpref.disabledon.indexOf(domainname.title), 1);
 				}
 			}
 			break;
 		case 'website-switch':
 			if (event.target.value === '0') {
-				localpref.disabledon.push(websitename.title);
+				userpref.disabledon.push(websitename.title);
 			} else {
-				while (localpref.disabledon.indexOf(websitename.title) !== -1) {
-					localpref.disabledon.splice(localpref.disabledon.indexOf(websitename.title), 1);
+				while (userpref.disabledon.indexOf(websitename.title) !== -1) {
+					userpref.disabledon.splice(userpref.disabledon.indexOf(websitename.title), 1);
 				}
-				while (localpref.disabledon.indexOf(domainname.title) !== -1) {
-					localpref.disabledon.splice(localpref.disabledon.indexOf(domainname.title), 1);
+				while (userpref.disabledon.indexOf(domainname.title) !== -1) {
+					userpref.disabledon.splice(userpref.disabledon.indexOf(domainname.title), 1);
 				}
 			} 
 			break;
 		case 'domain-switch':
 			if (event.target.value === '0') {
-				localpref.disabledon.push(domainname.title);
+				userpref.disabledon.push(domainname.title);
 			} else {
-				while (localpref.disabledon.indexOf(domainname.title) !== -1) {
-					localpref.disabledon.splice(localpref.disabledon.indexOf(domainname.title), 1);
+				while (userpref.disabledon.indexOf(domainname.title) !== -1) {
+					userpref.disabledon.splice(userpref.disabledon.indexOf(domainname.title), 1);
 				}
 			}
 			break;
 	}
-	chrome.runtime.sendMessage(localpref);
-	userpref = getuserpref(localpref);
+	chrome.runtime.sendMessage(userpref);
 	setuserpref();
 });
 
