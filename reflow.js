@@ -116,7 +116,7 @@ if (userpref === null) {
 			'whatsapp.com',
 			'youtube.com'
 		],
-		"widthcutoff": 0.5,
+		"widthcutoff": 0.41,
 		"totalreflows": 0
 	}
 	window.localStorage.setItem(storagename, JSON.stringify(userpref));
@@ -156,63 +156,63 @@ chrome.webRequest.onBeforeSendHeaders.addListener(details => {
 	]
 );
 
-// chrome.webNavigation.onCommitted.addListener(details => {
-// 	let taburl = details.url;
-// 	let tabid = details.tabId;
-// 	if ((tabid > -1) && (details.parentFrameId === -1)) {
-// 		chrome.tabs.get(tabid, tab => {
-// 			taburl = tab.url;
-// 			tabwidth = tab.width;
-// 			let root = url2root(taburl);
-// 			let domain = url2domain(taburl);
-// 			if ((domain.indexOf('.') > -1) && (userpref.disabledon.indexOf(stripprotocol(url2domain(taburl))) === -1) && (userpref.disabledon.indexOf(stripprotocol(url2root(taburl))) === -1) && (userpref.disabledon.indexOf(stripprotocol(url2page(taburl))) === -1)) {
-// 				//domain upgrade
-// 				if ((tabwidth > userpref.widthcutoff*screenwidth) 
-// 					&& (root.match(/\/m\.|\.m\.|\/mobile\./) !== null)) {
-// 					let desktopurl = taburl.replace(/m\.|mobile\./, '');
-// 					chrome.tabs.update( tabid, { url: desktopurl } );
-// 				// cache bypass
-// 				} else if (!reflowlist[tabid] || (reflowlist[tabid].root !== root) || ((reflowlist[tabid].status === 'ON') && (tabwidth > userpref.widthcutoff*screenwidth)) || ((reflowlist[tabid].status === 'OFF') && (tabwidth < userpref.widthcutoff*screenwidth))) {
-// 					chrome.tabs.reload(tabid, { "bypassCache": true });
-// 					if (tabwidth < userpref.widthcutoff*screenwidth) {
-// 						userpref.totalreflows -= 1;
-// 					}
-// 				}
-// 				if (tabwidth < userpref.widthcutoff*screenwidth) {
-// 					userpref.totalreflows += 1;
-// 					window.localStorage.setItem(storagename, JSON.stringify(userpref));
-// 					reflowlist[tabid] = {
-// 						"status": 'ON',
-// 						'domain': domain,
-// 						'root': root
-// 					}
-// 					chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
-// 						if (result !== "ON") {
-// 							chrome.browserAction.setBadgeText({
-// 								"text": "ON",
-// 								"tabId": tabid
-// 							});
-// 						}
-// 					});
-// 				} else {
-// 					reflowlist[tabid] = {
-// 						"status": 'OFF',
-// 						'domain': domain,
-// 						'root': root
-// 					}
-// 					chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
-// 						if (result !== "") {
-// 							chrome.browserAction.setBadgeText({
-// 								"text": "",
-// 								"tabId": tabid
-// 							});
-// 						}
-// 					});
-// 				}
-// 			} 
-// 		});
-// 	}
-// });
+chrome.webNavigation.onCommitted.addListener(details => {
+	let taburl = details.url;
+	let tabid = details.tabId;
+	if ((tabid > -1) && (details.parentFrameId === -1)) {
+		chrome.tabs.get(tabid, tab => {
+			taburl = tab.url;
+			tabwidth = tab.width;
+			let root = url2root(taburl);
+			let domain = url2domain(taburl);
+			if ((domain.indexOf('.') > -1) && (userpref.disabledon.indexOf(stripprotocol(url2domain(taburl))) === -1) && (userpref.disabledon.indexOf(stripprotocol(url2root(taburl))) === -1) && (userpref.disabledon.indexOf(stripprotocol(url2page(taburl))) === -1)) {
+				//domain upgrade
+				if ((tabwidth > userpref.widthcutoff*screenwidth) 
+					&& (root.match(/\/m\.|\.m\.|\/mobile\./) !== null)) {
+					let desktopurl = taburl.replace(/m\.|mobile\./, '');
+					chrome.tabs.update( tabid, { url: desktopurl } );
+				// cache bypass
+				} else if (!reflowlist[tabid] || (reflowlist[tabid].root !== root) || ((reflowlist[tabid].status === 'ON') && (tabwidth > userpref.widthcutoff*screenwidth)) || ((reflowlist[tabid].status === 'OFF') && (tabwidth < userpref.widthcutoff*screenwidth))) {
+					chrome.tabs.reload(tabid, { "bypassCache": true });
+					if (tabwidth < userpref.widthcutoff*screenwidth) {
+						userpref.totalreflows -= 1;
+					}
+				}
+				if (tabwidth < userpref.widthcutoff*screenwidth) {
+					userpref.totalreflows += 1;
+					window.localStorage.setItem(storagename, JSON.stringify(userpref));
+					reflowlist[tabid] = {
+						"status": 'ON',
+						'domain': domain,
+						'root': root
+					}
+					chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
+						if (result !== "ON") {
+							chrome.browserAction.setBadgeText({
+								"text": "ON",
+								"tabId": tabid
+							});
+						}
+					});
+				} else {
+					reflowlist[tabid] = {
+						"status": 'OFF',
+						'domain': domain,
+						'root': root
+					}
+					chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
+						if (result !== "") {
+							chrome.browserAction.setBadgeText({
+								"text": "",
+								"tabId": tabid
+							});
+						}
+					});
+				}
+			} 
+		});
+	}
+});
 
 // CONTEXT MENU
 // define the options 
