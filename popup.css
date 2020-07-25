@@ -62,10 +62,10 @@ body {
 	padding: 0;
 	border-style: none;
 	height: auto;
-	width: 7cm;
+	width: 7.2cm;
 	display: grid;
 	grid-template-columns: 100%;
-	grid-template-rows: 0.3cm 1cm 3.5cm 1cm 1cm 0.7cm 3cm 2cm 1cm;
+	grid-template-rows: 0.3cm 0.9cm auto 1cm 1cm 0.7cm 3cm 2cm 1cm;
 	overflow: hidden;
 }
 h1 {
@@ -81,8 +81,8 @@ h1 {
 }
 picture, img {
 	margin: auto;
-	width: auto;
-	height: 3.5cm;
+	width: 6.8cm;
+	height: auto;
 }
 div {
 	grid-row: span 1;
@@ -110,9 +110,8 @@ p {
 #width-slider {
 	grid-row: span 1;
 	grid-column: span 1;
-	margin-left: 10%;
-	margin-top: 3%;
-	width: 80%;
+	margin: auto;
+	width: 85%;
 	height: 100%;	
 }
 .switchof {
