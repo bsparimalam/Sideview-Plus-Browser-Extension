@@ -33,6 +33,28 @@ function url2domain(url) {
 		return url.slice(0, nIndexOf(url, '/', 2) + 1) + url.slice(nIndexOf(url, '.', periods-1) + 1, );
 	}
 }
+// functions
+function gethost() {
+	let hostua = navigator.userAgent;
+	let temp = hostua.split('/');
+	temp = temp[temp.length-2];
+	temp = temp.split(' ');
+	temp = temp[temp.length-1];
+	if (temp === "Safari") {
+		temp = hostua.split('/');
+		temp = temp[temp.length-3];
+		temp = temp.split(' ');
+		temp = temp[temp.length-1];
+		if (temp === "Chrome") {
+			return "Chrome";
+		}
+		else {
+			return "Safari";
+		}
+	} else {
+		return temp;
+	}
+}
 //////////////////////////////////////////////////////////////////////////////
 function setuserpref() {
 	chrome.tabs.query({active:true, currentWindow:true}, tabs => {
@@ -99,6 +121,13 @@ function setuserpref() {
 			} else {
 				usage.innerText = Math.floor(userpref.totalreflows) + '';
 			}
+			if (host === "Firefox") {
+				promo.href = "https://addons.mozilla.org/en-CA/firefox/addon/mini-browser-for-multitasking/";
+			} else if (host === "Edg") {
+				promo.href = "https://microsoftedge.microsoft.com/addons/detail/reflow-for-multitasking/ngocckbdkjpgidpachimbiaphcgjgoaa";
+			} else {
+				promo.href = "https://chrome.google.com/webstore/detail/reflow-for-multitasking/cgkfhhagdgcjcjdkcbpohhhidlibblkn?utm_source=reflow";
+			}
 		});
 	});
 }
@@ -127,6 +156,8 @@ schematic = document.getElementById('schematic');
 reloadbutton = document.getElementById('reload');
 usage =  document.getElementById('usage');
 bugreport = document.getElementById('bugreport');
+promo = document.getElementById('bharapp');
+host = gethost();
 setuserpref();
 
 document.addEventListener('change', event => {

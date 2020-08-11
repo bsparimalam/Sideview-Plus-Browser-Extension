@@ -42,6 +42,15 @@
     "message": "reflows"
   },
   "bharapp": {
-    "message": "bhar.app"
+    "message": "Rate"
+  },
+  "openlink": {
+    "message": "Open link in a miniwindow"
+  },
+  "search": {
+    "message": "Search Google for '%s' in a miniwindow"
+  },
+  "openpage": {
+    "message": "Open this page in a miniwindow"
   }
 }

@@ -33,9 +33,6 @@ function url2domain(url) {
 		return url.slice(0, nIndexOf(url, '/', 2) + 1) + url.slice(nIndexOf(url, '.', periods-1) + 1, );
 	}
 }
-
-//////////////////////////////////////////////////////////////////////////////
-
 // functions
 function gethost() {
 	let hostua = navigator.userAgent;
@@ -58,6 +55,7 @@ function gethost() {
 		return temp;
 	}
 }
+//////////////////////////////////////////////////////////////////////////////
 
 // target mobile useragent
 function gettargetua(hostid) {
@@ -238,19 +236,19 @@ chrome.webNavigation.onCommitted.addListener(details => {
 
 let linkinpopup = {
 	"id":"linkinpopup",
-	"title": "Open link in a miniwindow",
+	"title": chrome.i18n.getMessage('openlink'),
 	'contexts': ['link']
 }
 chrome.contextMenus.create(linkinpopup);
 let searchinpopup = {
 	"id":"searchinpopup",
-	"title": "Search Google for '%s' in a miniwindow",
+	"title": chrome.i18n.getMessage('search'),
 	'contexts': ['selection']
 }
 chrome.contextMenus.create(searchinpopup);
 let pageinpopup = {
 	"id":"pageinpopup",
-	"title": "Open this page in a miniwindow",
+	"title": chrome.i18n.getMessage('openpage'),
 	'contexts': ['page']
 };
 chrome.contextMenus.create(pageinpopup);
