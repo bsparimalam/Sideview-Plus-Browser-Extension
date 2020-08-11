@@ -7,16 +7,15 @@
 	<link rel="stylesheet" href="./popup.css">
 </head>
 <body>
-	<span id="headspace"></span>
-	<h1>Reflow for Multitasking</h1>
+	<h1 id="name">Reflow for Multitasking</h1>
 	<picture>
     	<source srcset="./icons/schematic-dark.png" 
     		media="(prefers-color-scheme: dark)">
 		<img id="schematic" src="./icons/schematic.png"/>
 	</picture>
 	<input id="width-slider" type="range" name="set width Cut-off" min="0.0" max="1.1" step="0.1" value="0.41">
-	<p>none &nbsp &nbsp &nbsp &nbsp <b>some</b> &nbsp &nbsp &nbsp &nbsp more &nbsp  &nbsp &nbsp &nbsp all</p>
-	<h1 >Reflow on</h1>
+	<p id="slideval"><span id="none">none</span><span id="some">some</span><span id="more">more</span><span id="all">all</span></p>
+	<h1 id="reflowon">Reflow On</h1>
 	<div id='switches'>
 		<span class="switchof" ><p id="page" title="www.example.com/example.html">this page</p></span>
 		<input id="page-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
@@ -26,7 +25,7 @@
 		<input id="domain-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
 	</div>
 	<button id="reload">Reload the page</button>
-	<p class="subtext" ><a id="bugreport" href="mailto:support@bhar.app">⚠ report issue</a> &nbsp|&nbsp <span id="usage">xxxx reflows</span> &nbsp|&nbsp <a href="https://bhar.app/?utm_source=reflow" target="_blank">bhar.app</a></p>
+	<p class="subtext" ><a id="bugreport" href="mailto:support@bhar.app">⚠ report issue</a>&nbsp|&nbsp<span id="usagewrap"><span id="usage">xxxx</span>&nbsp<span id="reflows">reflows</span></span>&nbsp|&nbsp<a href="https://bhar.app/?utm_source=reflow" target="_blank" id="bharapp">bhar.app</a></p>
     <script src='./popup.js'></script>
 </body>
 </html>

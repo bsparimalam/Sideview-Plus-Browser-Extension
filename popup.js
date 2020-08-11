@@ -15,23 +15,15 @@ function nIndexOf(string, of, n) {
 }
 // extract page address from url
 function url2page(url) {
-	let index = stripprotocol(url).lastIndexOf('/');
-	if (index === -1) {
-		return url;
-	} else {
-		return url.slice(0, url.lastIndexOf('/'));
-	}
+	let urlobject = new URL(url);
+	return urlobject.hostname + urlobject.pathname;
 }
 // extract root address from url
 function url2root(url) {
-	let index = nIndexOf(url, '/', 3);
-	let root;
-	if (index === -1) { 
-		return url;
-	} else { 
-		return url.slice(0, nIndexOf(url, '/', 3));
-	}
+	let urlobject = new URL(url);
+	return urlobject.hostname;
 }
+// extract domain address from url
 function url2domain(url) {
 	url = url2root(url);
 	if (nIndexOf(url, '.', 2) === -1) {
@@ -41,77 +33,89 @@ function url2domain(url) {
 		return url.slice(0, nIndexOf(url, '/', 2) + 1) + url.slice(nIndexOf(url, '.', periods-1) + 1, );
 	}
 }
-function stripprotocol(string) {
-	return string.replace(/https:\/\/|http:\/\//, '');
-}
-
 //////////////////////////////////////////////////////////////////////////////
 function setuserpref() {
 	chrome.tabs.query({active:true, currentWindow:true}, tabs => {
-		let page = stripprotocol(url2page(tabs[0].url));
-		let website = stripprotocol(url2root(tabs[0].url));
-		let domain = stripprotocol(url2domain(tabs[0].url));
-		pagename.title = page;
-		websitename.title = website;
-		websitename.innerText = website.slice(0, 24);
-		domainname.title = domain;
-		domainname.innerText = domain.slice(0, 24);
-		widthslider.value = userpref.widthcutoff;
-		if (page === website) {
-			pageswitch.disabled = true;
-			pagename.style.color = 'var(--disabled)';
-		}
-		if (website ===  domain) {
-			websiteswitch.disabled = true;
-			websitename.innerText = 'subdomain';
-			websitename.style.color = 'var(--disabled)';
-		}
-		if (domain.indexOf('.') > -1) {
-			if (userpref.disabledon.indexOf(domain) !== -1) {
+		let tabid = tabs[0].id;
+		chrome.tabs.get(tabid, tab => {
+			let taburl = tab.url;
+			let domain = url2domain(taburl);
+			let website = url2root(taburl);
+			let page = url2page(taburl);
+			pagename.title = page;
+			websitename.title = website;
+			websitename.innerText = website.slice(0, 24);
+			domainname.title = domain;
+			domainname.innerText = domain.slice(0, 24);
+			widthslider.value = userpref.widthcutoff;
+			if (page === website) {
+				pageswitch.disabled = true;
+				pagename.style.color = 'var(--disabled)';
+			}
+			if (website ===  domain) {
+				websiteswitch.disabled = true;
+				websitename.innerText = 'subdomain';
+				websitename.style.color = 'var(--disabled)';
+			}
+			if (domain.indexOf('.') > -1) {
+				if (userpref.disabledon.indexOf(domain) !== -1) {
+					pageswitch.value = 0;
+					websiteswitch.value = 0;
+					domainswitch.value = 0;
+				} else if (userpref.disabledon.indexOf(website) !== -1) {
+					pageswitch.value = 0;
+					websiteswitch.value = 0;
+					domainswitch.value = 1;
+				} else if (userpref.disabledon.indexOf(page) !== -1) {
+					pageswitch.value = 0;
+					websiteswitch.value = 1;
+					domainswitch.value = 1;		
+				} else {
+					pageswitch.value = 1;
+					websiteswitch.value = 1;
+					domainswitch.value = 1;	
+				}
+			} else {
+				pageswitch.disabled = true;
+				websiteswitch.disabled = true;
+				domainswitch.disabled = true;
+				websitename.innerText = 'subdomain';
+				domainname.innerText = 'domain';
+				pagename.style.color = 'var(--disabled)';
+				websitename.style.color = 'var(--disabled)';
+				domainname.style.color = 'var(--disabled)';
 				pageswitch.value = 0;
 				websiteswitch.value = 0;
 				domainswitch.value = 0;
-			} else if (userpref.disabledon.indexOf(website) !== -1) {
-				pageswitch.value = 0;
-				websiteswitch.value = 0;
-				domainswitch.value = 1;
-			} else if (userpref.disabledon.indexOf(page) !== -1) {
-				pageswitch.value = 0;
-				websiteswitch.value = 1;
-				domainswitch.value = 1;		
-			} else {
-				pageswitch.value = 1;
-				websiteswitch.value = 1;
-				domainswitch.value = 1;	
 			}
-		} else {
-			pageswitch.disabled = true;
-			websiteswitch.disabled = true;
-			domainswitch.disabled = true;
-			websitename.innerText = 'subdomain';
-			domainname.innerText = 'domain';
-			pagename.style.color = 'var(--disabled)';
-			websitename.style.color = 'var(--disabled)';
-			domainname.style.color = 'var(--disabled)';
-			pageswitch.value = 0;
-			websiteswitch.value = 0;
-			domainswitch.value = 0;
-		}
-		bugreport.href = `mailto:support@bhar.app?subject=Reflow - bug report - ${website}&body=Hi, I found an issue with the extension. Issue description: `;
-		let reflows = userpref.totalreflows;
-		if (reflows > 1000000000) {
-			usage.innerText = Math.floor(reflows/1000000000) + 'B+ reflows';
-		} else if (reflows > 1000000) {
-			usage.innerText = Math.floor(reflows/1000000) + 'M+ reflows';
-		} else if (reflows > 1000) {
-			usage.innerText = Math.floor(reflows/1000) + 'K+ reflows';
-		} else {
-			usage.innerText = Math.floor(userpref.totalreflows) + ' reflows';
-		}
+			bugreport.href = `mailto:support@bhar.app?subject=Reflow - bug report - ${website} - &body=Hi, I found an issue with the extension. Issue description: useragent: ${navigator.userAgent}`;
+			let reflows = userpref.totalreflows;
+			if (reflows > 1000000000) {
+				usage.innerText = Math.floor(reflows/1000000000) + 'B+';
+			} else if (reflows > 1000000) {
+				usage.innerText = Math.floor(reflows/1000000) + 'M+';
+			} else if (reflows > 1000) {
+				usage.innerText = Math.floor(reflows/1000) + 'K+';
+			} else {
+				usage.innerText = Math.floor(userpref.totalreflows) + '';
+			}
+		});
 	});
 }
 
 // not duplicate
+document.getElementById('name').innerText = chrome.i18n.getMessage('name');
+document.getElementById('none').innerText = chrome.i18n.getMessage('none');
+document.getElementById('some').innerText = chrome.i18n.getMessage('some');
+document.getElementById('more').innerText = chrome.i18n.getMessage('more');
+document.getElementById('all').innerText = chrome.i18n.getMessage('all');
+document.getElementById('reflowon').innerText = chrome.i18n.getMessage('reflowon');
+document.getElementById('page').innerText = chrome.i18n.getMessage('page');
+document.getElementById('reload').innerText = chrome.i18n.getMessage('reload');
+document.getElementById('bugreport').innerText = chrome.i18n.getMessage('bugreport');
+document.getElementById('reflows').innerText = chrome.i18n.getMessage('reflows');
+document.getElementById('bharapp').innerText = chrome.i18n.getMessage('bharapp');
+
 pagename = document.getElementById('page');
 websitename = document.getElementById('website');
 domainname =  document.getElementById('domain');

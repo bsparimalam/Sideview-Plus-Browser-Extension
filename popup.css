@@ -3,14 +3,14 @@
 	font-style: normal;
 	font-weight: 500;
 	src: local('Fira Sans Regular'), local('FiraSans-Regular'),
-		url('./fonts/500.ttf') format('truetype');
+		url('__MSG_font500__') format('truetype');
 }
 @font-face {
 	font-family: 'Fira Sans';
 	font-style: normal;
 	font-weight: 700;
 	src: local('Fira Sans Regular'), local('FiraSans-Regular'),
-		url('./fonts/700.ttf') format('truetype');
+		url('__MSG_font700__') format('truetype');
 }
 :root {
 	--disabled: gray;
@@ -46,85 +46,95 @@
 		color: #101a20;
 	}
 }
-h1, p {
+html, body, h1, picture, img, input, p, div, span, button {
+	margin: 0;
+	padding: 0;
+	border-style: none;
+	border-width: 0;
 	font-family: var(--font-family);
 }
 html {
-	margin: 0;
-	padding: 0;
-	border-style: none;
-	height: 100%;
-	width: 100%;
+	height: auto;
+	width: auto;
 	overflow: hidden;
 }
 body {
-	margin: 0;
-	padding: 0;
-	border-style: none;
 	height: auto;
-	width: 7.2cm;
+	width: __MSG_extwidth__;
 	display: grid;
 	grid-template-columns: 100%;
-	grid-template-rows: 0.3cm 0.9cm auto 1cm 1cm 0.7cm 3cm 2cm 1cm;
+	grid-template-rows: auto auto 1cm auto auto auto 1.5cm auto;
 	overflow: hidden;
+	padding-top: 0.2cm;
 }
 h1 {
 	grid-row: span 1;
 	grid-column: span 1;
-	font-size: 1.2rem;
+	font-size: 0.55cm;
 	text-align: center;
-	margin-top: 0.1cm;
+	padding: 0.2cm;
 }
-#version {
-	font-weight: 500;
-	font-size: 0.7rem;
-}
-picture, img {
-	margin: auto;
-	width: 6.8cm;
+img {
+	margin: 0% 2%;
+	width: 96%;
 	height: auto;
 }
-div {
+#width-slider {
 	grid-row: span 1;
 	grid-column: span 1;
-	display: grid;
-	grid-template-columns: 80% 15%;
-	grid-template-rows: 33.33% 33.33% 33.33%;
-	margin: auto;
-	padding: 0;
-	border-style: none;
-	height: 100%;
-	width: 100%;
+	margin: 0% 4%;
+	width: 92%;
+	height: 100%;	
 }
 p {
 	grid-row: span 1;
 	grid-column: span 1;
 	text-align: center;
-	font-size: 1rem;
+	font-size: 0.45cm;
+	padding: 0.22cm 0;
 	margin: auto;
-	margin-top: 0.15cm;
-	filter: opacity(1);
-	overflow: hidden;
-	text-overflow: hidden;
 }
-#width-slider {
+#slideval {
+	width: 100%;
+	text-align: center;
+	display: grid;
+	grid-template-columns: 25% 25% 25% 25%;
+	grid-template-rows: 100%;
+	padding-top: 0;
+}
+#some {
+	font-weight: 700;
+}
+#slideval span {
 	grid-row: span 1;
 	grid-column: span 1;
-	margin: auto;
-	width: 85%;
-	height: 100%;	
+}
+div {
+	grid-row: span 1;
+	grid-column: span 1;
+	display: grid;
+	grid-template-columns: auto 0.75cm;
+	grid-template-rows: 33.33% 33.33% 33.33%;
+	margin: 0% auto;
+	padding: 0;
+	border-style: none;
+	height: 100%;
+	width: auto;
+	max-width: 
+}
+div > span > p {
+	padding: 0.25cm 0.5cm;
 }
 .switchof {
 	grid-row: span 1;
 	grid-column: span 1;
 	width: 100%;
 	height: 100%;
-	padding-top: 0.15cm;
 }
 .switch {
 	grid-row: span 1;
 	grid-column: span 1;
-	width: 70%;
+	width: 100%;
 	height: 100%;
 }
 #reload {
@@ -134,16 +144,19 @@ p {
 	grid-column: span 1;
 	margin: auto;
 	width: 80%;
-	height: 70%;
+	height: 90%;
 	text-align: center;
 	border-radius: 0.5cm;
 	border-style: solid;
-	font-family: var(--font-family);
-	font-size: 1.2rem;
+	font-size: 0.55cm;
 	font-weight: 700;
 }
 .subtext {
-	font-size: 0.8rem;
+	font-size: 0.35cm;
+	padding: 0.175cm 0;
+	width: 90%;
+	margin: 0 5%;
+	text-align: center;
 }
 a, a:link, a:visited, a:focus, a:hover, a:active {
 	text-decoration: none;

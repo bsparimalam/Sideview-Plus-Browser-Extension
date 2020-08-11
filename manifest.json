@@ -1,8 +1,8 @@
 {
-  "name": "Reflow for Multitasking",
-  "short_name": "Reflow",
-  "version": "1.1.6",
-  "description": "Improve the web layout on narrow windows; multitask with ease; do quick lookups and checkout references without leaving the tab.",
+  "name": "__MSG_name__",
+  "version": "1.1.8",
+  "description": "__MSG_description__",
+  "default_locale": "en",
   "icons": {
     "16": "./icons/icon-16.png",
     "19": "./icons/icon-19.png",
@@ -37,7 +37,7 @@
     "300": "./icons/icon-300.png",
     "512": "./icons/icon-512.png"
   },
-  "default_title": "Reflow for Multitasking"
+  "default_title": "__MSG_name__"
   },
   "background": {
     "scripts": ["./reflow.js"]
@@ -48,26 +48,8 @@
     "<all_urls>",
     "webNavigation",
     "tabs",
-    "contextMenus",
-    "bookmarks",
-    "management"
+    "contextMenus"
   ],
   "content_security_policy": "default-src 'self';",
-  "manifest_version": 2,
-  "sidebar_action": {
-    "default_icon": {
-      "16": "./icons/icon-16.png",
-      "19": "./icons/icon-19.png",
-      "32": "./icons/icon-32.png",
-      "38": "./icons/icon-38.png",
-      "48": "./icons/icon-48.png",
-      "96": "./icons/icon-96.png",
-      "128": "./icons/icon-128.png",
-      "152": "./icons/icon-152.png",
-      "512": "./icons/icon-512.png"
-    },
-    "default_title" : "Reflow for Multitasking",
-    "default_panel": "./popup.html",
-    "open_at_install": false
-  }
+  "manifest_version": 2
 }

@@ -1,0 +1,47 @@
+{
+  "font500": {
+    "message": "./fonts/ta500.ttf"
+  },
+  "font700":{
+    "message": "./fonts/ta700.ttf"
+  },
+  "extwidth": {
+    "message": "8.5cm"
+  },
+  "name": {
+    "message": "வலைத்தள மறுவரை"
+  },
+  "description": {
+    "message": "குறுகிய சாளரங்களில் வலை தளவமைப்பை மேம்படுத்தவும்; பல பணிகளை எளிதில் செய்யுங்கள்; தேடல்கள் மற்றும் இணைப்புகளை தாவலை விட்டு வெளியேறாமல் செய்யுங்கள்."
+  },
+  "none": {
+    "message": "இல்லை"
+  },
+  "some": {
+    "message": "சில"
+  },
+  "more": {
+    "message": "பல"
+  },
+  "all": {
+    "message": "எல்லாம்"
+  },
+  "reflowon": {
+    "message": "மறுவரை"
+  },
+  "page": {
+    "message": "இந்த பக்கம்"
+  },
+  "reload": {
+    "message": "மீண்டும் ஏற்று"
+  },
+  "bugreport": {
+    "message": "⚠ புகார் செய்"
+  },
+  "reflows": {
+    "message": "மறுவரைகள்"
+  },
+  "bharapp": {
+    "message": "பார்.ஆப்"
+  }
+}

@@ -15,23 +15,15 @@ function nIndexOf(string, of, n) {
 }
 // extract page address from url
 function url2page(url) {
-	let index = stripprotocol(url).lastIndexOf('/');
-	if (index === -1) {
-		return url;
-	} else {
-		return url.slice(0, url.lastIndexOf('/'));
-	}
+	let urlobject = new URL(url);
+	return urlobject.hostname + urlobject.pathname;
 }
 // extract root address from url
 function url2root(url) {
-	let index = nIndexOf(url, '/', 3);
-	let root;
-	if (index === -1) { 
-		return url;
-	} else { 
-		return url.slice(0, nIndexOf(url, '/', 3));
-	}
+	let urlobject = new URL(url);
+	return urlobject.hostname;
 }
+// extract domain address from url
 function url2domain(url) {
 	url = url2root(url);
 	if (nIndexOf(url, '.', 2) === -1) {
@@ -40,9 +32,6 @@ function url2domain(url) {
 		let periods = url.split('.').length - 1;
 		return url.slice(0, nIndexOf(url, '/', 2) + 1) + url.slice(nIndexOf(url, '.', periods-1) + 1, );
 	}
-}
-function stripprotocol(string) {
-	return string.replace(/https:\/\/|http:\/\//, '');
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -106,7 +95,6 @@ host = gethost();
 targetua = gettargetua(host);
 tabwidth = undefined;
 taburl = undefined;
-sideurl = undefined;
 reflowlist = {};
 screenwidth =  window.screen.width;
 screenheight = window.screen.height;
@@ -172,19 +160,16 @@ chrome.webRequest.onBeforeSendHeaders.addListener(details => {
 				taburl = tab.url;
 			}
 		});
-	} else if (sideurl) {
-		taburl = sideurl;
-		// deteriorates with cross domain navigation ¯\_(ツ)_/¯
-	}
-	if (taburl && tabwidth) {
-		let domain = stripprotocol(url2domain(taburl));
-		let root = stripprotocol(url2root(taburl));
-		let page = stripprotocol(url2page(taburl));
-		if (((host==='Firefox') && (tabid === -1) && (domain.indexOf('.') !== -1) && (userpref.disabledon.indexOf(domain) === -1)  && (userpref.disabledon.indexOf(root) === -1) && (userpref.disabledon.indexOf(page) === -1)) || ((tabid > -1) && (domain.indexOf('.') !== -1) && (tabwidth < userpref.widthcutoff*screenwidth) && (userpref.disabledon.indexOf(domain) === -1)  && (userpref.disabledon.indexOf(root) === -1) && (userpref.disabledon.indexOf(page) === -1))) {
-			for(let i = 0; i < details.requestHeaders.length; ++i) {
-				if (details.requestHeaders[i].name === 'User-Agent') {
-					details.requestHeaders[i].value = targetua;
-					break;
+		if (taburl && tabwidth) {
+			let domain = url2domain(taburl);
+			let root = url2root(taburl);
+			let page = url2page(taburl);
+			if ((domain.indexOf('.') !== -1) && (tabwidth < userpref.widthcutoff*screenwidth) && (userpref.disabledon.indexOf(domain) === -1)  && (userpref.disabledon.indexOf(root) === -1) && (userpref.disabledon.indexOf(page) === -1)) {
+				for(let i = 0; i < details.requestHeaders.length; ++i) {
+					if (details.requestHeaders[i].name === 'User-Agent') {
+						details.requestHeaders[i].value = targetua;
+						break;
+					}
 				}
 			}
 		}
@@ -208,170 +193,94 @@ chrome.webNavigation.onCommitted.addListener(details => {
 			taburl = tab.url;
 			tabwidth = tab.width;
 			if (taburl && tabwidth) {
-				let domain = stripprotocol(url2domain(taburl));
-				let root = stripprotocol(url2root(taburl));
-				let page = stripprotocol(url2page(taburl));
-				if ((domain.indexOf('.') > -1) && (userpref.disabledon.indexOf(domain) === -1)  && (userpref.disabledon.indexOf(root) === -1) && (userpref.disabledon.indexOf(page) === -1)) {
-					if (tabwidth < userpref.widthcutoff*screenwidth) {
-						if (!reflowlist[tabid] || (reflowlist[tabid].root !== root) || (reflowlist[tabid].status === 'OFF')) {
-							chrome.tabs.reload(tabid, { "bypassCache": true });
-							userpref.totalreflows -= 1;
-						} else {
-						}
-						userpref.totalreflows += 1;
-						reflowlist[tabid] = {
-							"status": 'ON',
-							'domain': domain,
-							'root': root
-						}
-						chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
-							if (result !== "ON") {
-								chrome.browserAction.setBadgeText({
-									"text": "ON",
-									"tabId": tabid
-								});
-							}
-						});
-						window.localStorage.setItem(storagename, JSON.stringify(userpref));
-					} else {
-						if (url2root(taburl).match(/\/m\.|\.m\.|\/mobile\./) !== null) {
-							let desktopurl = taburl.replace(/m\.|mobile\./, '');
-							chrome.tabs.update( tabid, { url: desktopurl } );
-						} else if (!reflowlist[tabid] || (reflowlist[tabid].root !== root) || (reflowlist[tabid].status === 'ON')) {
-							chrome.tabs.reload(tabid, { "bypassCache": true });
-						}
-						reflowlist[tabid] = {
-							"status": 'OFF',
-							'domain': domain,
-							'root': root
-						}
-						chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
-							if (result !== "") {
-								chrome.browserAction.setBadgeText({
-									"text": "",
-									"tabId": tabid
-								});
-							}
-						});
+				let domain = url2domain(taburl);
+				let root = url2root(taburl);
+				let page = url2page(taburl);
+				if ((tabwidth < userpref.widthcutoff*screenwidth) && (domain.indexOf('.') > -1) && (userpref.disabledon.indexOf(domain) === -1)  && (userpref.disabledon.indexOf(root) === -1) && (userpref.disabledon.indexOf(page) === -1)) {
+					if (!reflowlist[tabid] || !reflowlist[root] || (reflowlist[tabid] === 'OFF') || (reflowlist[root] === 'OFF')) {
+						chrome.tabs.reload(tabid, { "bypassCache": true });
+						userpref.totalreflows -= 1;
 					}
+					reflowlist[root] = 'ON';
+					reflowlist[tabid] = 'ON';
+					userpref.totalreflows += 1;
+					window.localStorage.setItem(storagename, JSON.stringify(userpref));
+					chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
+						if (result !== "ON") {
+							chrome.browserAction.setBadgeText({
+								"text": "ON",
+								"tabId": tabid
+							});
+						}
+					});
+				} else {
+					if (((new URL(taburl)).protocol + url2root(taburl)).match(/\/m\.|\.m\.|\/mobile\./) !== null) {
+						let desktopurl = taburl.replace(/m\.|mobile\./, '');
+						chrome.tabs.update( tabid, { url: desktopurl } );
+					} else if ((reflowlist[tabid] && (reflowlist[tabid] === 'ON')) || (reflowlist[root] && (reflowlist[root] === 'ON'))) {
+						chrome.tabs.reload(tabid, { "bypassCache": true });
+					}
+					reflowlist[tabid] = 'OFF';
+					reflowlist[root] = 'OFF';
+					chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
+						if (result !== "") {
+							chrome.browserAction.setBadgeText({
+								"text": "",
+								"tabId": tabid
+							});
+						}
+					});
 				}
 			}
 		});
 	}
 });
 
-// CONTEXT MENU
-if (host === 'Firefox') {
-	function launchurl(urlstring) {
-		browser.sidebarAction.setPanel({panel: browser.runtime.getURL(urlstring)});
+let linkinpopup = {
+	"id":"linkinpopup",
+	"title": "Open link in a miniwindow",
+	'contexts': ['link']
+}
+chrome.contextMenus.create(linkinpopup);
+let searchinpopup = {
+	"id":"searchinpopup",
+	"title": "Search Google for '%s' in a miniwindow",
+	'contexts': ['selection']
+}
+chrome.contextMenus.create(searchinpopup);
+let pageinpopup = {
+	"id":"pageinpopup",
+	"title": "Open this page in a miniwindow",
+	'contexts': ['page']
+};
+chrome.contextMenus.create(pageinpopup);
+// define the window parameters
+let minibrowser = {
+	"state": "normal"
+};
+if (host !== "Firefox") {
+	minibrowser.focused = true;
+}
+// respond to the user request
+chrome.contextMenus.onClicked.addListener((click) => {
+	minibrowser.top = userpref.miniwindow.top;
+	minibrowser.left = userpref.miniwindow.left;
+	minibrowser.width = userpref.miniwindow.width;
+	minibrowser.height = userpref.miniwindow.height;
+	if ((click.menuItemId ==='searchinpopup') && click.selectionText) {
+		minibrowser.type = 'popup';
+		minibrowser.url = 'https://google.com/search?q=' + translate4search(click.selectionText);
+		chrome.windows.create(minibrowser);
+	} else if ((click.menuItemId === 'linkinpopup') && click.linkUrl) {
+		minibrowser.type = 'popup';
+		minibrowser.url = click.linkUrl;
+		chrome.windows.create(minibrowser);
+	} else if ((click.menuItemId === 'pageinpopup') && click.pageUrl) {
+		minibrowser.type = 'popup';
+		minibrowser.url = click.pageUrl;
+		chrome.windows.create(minibrowser);
 	}
-	let link2side = {
-		"id":"link2side",
-		"title": "Open Link on the Side",
-		'contexts': ['link']
-	};
-	chrome.contextMenus.create(link2side);
-	let search2side = {
-		"id":"search2side",
-		"title": "Search Google for '%s' in a MiniWindow",
-		'contexts': ['selection']
-	};
-	chrome.contextMenus.create(search2side);
-	let page2side = {
-		"id":"page2side",
-		"title": "Open this Page on the Side",
-		'contexts': ['page']
-	};
-	chrome.contextMenus.create(page2side);
-	let tab2side = {
-		"id":"tab2side",
-		"title": "Open this Tab on the Side",
-		'contexts': ['tab']
-	};
-	chrome.contextMenus.create(tab2side);
-	let bookmark2side = {
-		"id":"bookmark2side",
-		"title": "Open this Bookmark on the Side",
-		'contexts': ['bookmark']
-	};
-	chrome.contextMenus.create(bookmark2side);
-
-	// respond to the user request
-	chrome.contextMenus.onClicked.addListener((async (click, tab) => {
-		console.log(click);
-		if ((click.menuItemId ==='search2side') && click.selectionText) {
-			let minibrowser = {
-				"state": "normal",
-				"type": "popup",
-				"url": 'https://google.com/search?q=' + translate4search(click.selectionText),
-				"top" : userpref.miniwindow.top,
-				"left" : userpref.miniwindow.left,
-				"width" : userpref.miniwindow.width,
-				"height" : userpref.miniwindow.height
-			};
-			chrome.windows.create(minibrowser);
-		} else if ((click.menuItemId === 'link2side') && click.linkUrl) {
-			sideurl = click.linkUrl;
-			browser.sidebarAction.open();
-			launchurl(sideurl);
-		} else if ((click.menuItemId === 'page2side') && click.pageUrl) {
-			sideurl = click.pageUrl;
-			browser.sidebarAction.open();
-			launchurl(sideurl);
-		} else if ((click.menuItemId === 'tab2side') && tab.url) {
-			sideurl = tab.url;
-			browser.sidebarAction.open();
-			launchurl(sideurl);
-		} else if ((click.menuItemId === 'bookmark2side') && click.bookmarkId) {
-			let temp = await browser.bookmarks.get(click.bookmarkId);
-			sideurl = temp[0].url;
-			browser.sidebarAction.open();
-			launchurl(sideurl);
-		}
-	}));
-} else {
-	let linkinpopup = {
-		"id":"linkinpopup",
-		"title": "Open link in a miniwindow",
-		'contexts': ['link']
-	}
-	chrome.contextMenus.create(linkinpopup);
-	let searchinpopup = {
-		"id":"searchinpopup",
-		"title": "Search Google for '%s' in a miniwindow",
-		'contexts': ['selection']
-	}
-	chrome.contextMenus.create(searchinpopup);
-	let pageinpopup = {
-		"id":"pageinpopup",
-		"title": "Open this page in a miniwindow",
-		'contexts': ['page']
-	};
-	chrome.contextMenus.create(pageinpopup);
-	// define the window parameters
-	let minibrowser = {
-		"state": "normal",
-		"focused": true
-	};
-	// respond to the user request
-	chrome.contextMenus.onClicked.addListener((click) => {
-		minibrowser.top = userpref.miniwindow.top;
-		minibrowser.left = userpref.miniwindow.left;
-		minibrowser.width = userpref.miniwindow.width;
-		minibrowser.height = userpref.miniwindow.height;
-		if ((click.menuItemId ==='searchinpopup') && click.selectionText) {
-			minibrowser.type = 'popup';
-			minibrowser.url = 'https://google.com/search?q=' + translate4search(click.selectionText);
-			chrome.windows.create(minibrowser);
-		} else if ((click.menuItemId === 'linkinpopup') && click.linkUrl) {
-			minibrowser.type = 'popup';
-			minibrowser.url = click.linkUrl;
-			chrome.windows.create(minibrowser);
-		} else if ((click.menuItemId === 'pageinpopup') && click.pageUrl) {
-			minibrowser.type = 'popup';
-			minibrowser.url = click.pageUrl;
-			chrome.windows.create(minibrowser);
-		}
+	if (host !== "Firefox") {
 		chrome.windows.getCurrent(details => {
 			setTimeout(() => {
 				try {
@@ -387,17 +296,17 @@ if (host === 'Firefox') {
 				} catch {}
 			}, 5000);
 		});
-	});
-}
+	}
+});
 // receive user preferences
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	if (request === 'reload') {
 		chrome.tabs.query({active: true, currentWindow: true}, tabs => {
 			let tab = tabs[0];
 			let tabid = tab.id;
-			let taburl = tab.url;
+			taburl = tab.url;
 			//domain upgrade
-			if ((url2root(taburl).match(/\/m\.|\.m\.|\/mobile\./) !== null) && (tabid > -1)) {
+			if (((new URL(taburl)).protocol + url2root(taburl).match(/\/m\.|\.m\.|\/mobile\./) !== null) && (tabid > -1)) {
 				let desktopurl = taburl.replace(/m\.|mobile\./, '');
 				chrome.tabs.update( tabid, { url: desktopurl } );
 			// cache bypass
