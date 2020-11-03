@@ -100,12 +100,6 @@ screenheight = window.screen.height;
 // load defaults if needed
 if (userpref === null) {
 	userpref = {
-		"miniwindow": {
-			'top': Math.round(screenheight*0.10),
-			'left': Math.round(screenwidth*0.55),
-			'width': Math.round(screenwidth*0.30),
-			'height': Math.round(screenheight*0.80)
-		},
 		"disabledon": [
 			'apple.com',
 			'adobe.com',
@@ -137,11 +131,12 @@ if (userpref === null) {
 			'youtube.com'
 		],
 		"widthcutoff": 0.4,
-		"totalreflows": 0
+		"totalreflows": 0,
+		"ratedat": 5
 	}
 	window.localStorage.setItem(storagename, JSON.stringify(userpref));
 } else {
-	if (userpref.totalreflows === undefined) { userpref.totalreflows = 0 }
+	if (userpref.ratedat === undefined) { userpref.ratedat = 5}
 	window.localStorage.setItem(storagename, JSON.stringify(userpref));
 }
 
@@ -204,10 +199,22 @@ chrome.webNavigation.onCommitted.addListener(details => {
 					userpref.totalreflows += 1;
 					window.localStorage.setItem(storagename, JSON.stringify(userpref));
 					chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
-						if (result !== "ON") {
+						if (userpref.totalreflows/userpref.ratedat > 10) {
+							if (result !== "1") {
+								chrome.browserAction.setBadgeText({
+									"text": "1"
+								});
+								chrome.browserAction.setBadgeBackgroundColor({
+									"color": "#FF0000"
+								});
+							}
+						} else if (result !== "ON") {
 							chrome.browserAction.setBadgeText({
 								"text": "ON",
 								"tabId": tabid
+							});
+							chrome.browserAction.setBadgeBackgroundColor({
+								"color": "#101a20"
 							});
 						}
 					});
@@ -221,7 +228,16 @@ chrome.webNavigation.onCommitted.addListener(details => {
 					reflowlist[tabid] = 'OFF';
 					reflowlist[root] = 'OFF';
 					chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
-						if (result !== "") {
+						if (userpref.totalreflows/userpref.ratedat > 10) {
+							if (result !== "1") {
+								chrome.browserAction.setBadgeText({
+									"text": "1"
+								});
+								chrome.browserAction.setBadgeBackgroundColor({
+									"color": "#FF0000"
+								});
+							}
+						} else if (result !== "") {
 							chrome.browserAction.setBadgeText({
 								"text": "",
 								"tabId": tabid
@@ -236,19 +252,19 @@ chrome.webNavigation.onCommitted.addListener(details => {
 
 let linkinpopup = {
 	"id":"linkinpopup",
-	"title": chrome.i18n.getMessage('openlink'),
+	"title": "Open link in a miniwindow",
 	'contexts': ['link']
 }
 chrome.contextMenus.create(linkinpopup);
 let searchinpopup = {
 	"id":"searchinpopup",
-	"title": chrome.i18n.getMessage('search'),
+	"title": "Search Google for '%s' in a miniwindow",
 	'contexts': ['selection']
 }
 chrome.contextMenus.create(searchinpopup);
 let pageinpopup = {
 	"id":"pageinpopup",
-	"title": chrome.i18n.getMessage('openpage'),
+	"title": "Open this page in a miniwindow",
 	'contexts': ['page']
 };
 chrome.contextMenus.create(pageinpopup);
@@ -261,39 +277,33 @@ if (host !== "Firefox") {
 }
 // respond to the user request
 chrome.contextMenus.onClicked.addListener((click) => {
-	minibrowser.top = userpref.miniwindow.top;
-	minibrowser.left = userpref.miniwindow.left;
-	minibrowser.width = userpref.miniwindow.width;
-	minibrowser.height = userpref.miniwindow.height;
+	screenwidth = window.screen.width;
+	screenheight = window.screen.height;
+	miniwidth = Math.max(Math.round(screenwidth*0.30), 500);
+	minibrowser.top = 0;
+	minibrowser.left = screenwidth - miniwidth;
+	minibrowser.width = miniwidth;
+	minibrowser.height = screenheight;
+	chrome.windows.getCurrent(windows => {
+		if (windows.state === "maximized") {
+			chrome.windows.update(windows.id, {
+				'state': 'normal',
+				'top': 0,
+				'left': -8,
+				'height': screenheight - 40,
+				'width': screenwidth - miniwidth + 20
+			});
+		}
+	});
 	if ((click.menuItemId ==='searchinpopup') && click.selectionText) {
-		minibrowser.type = 'popup';
 		minibrowser.url = 'https://google.com/search?q=' + translate4search(click.selectionText);
 		chrome.windows.create(minibrowser);
 	} else if ((click.menuItemId === 'linkinpopup') && click.linkUrl) {
-		minibrowser.type = 'popup';
 		minibrowser.url = click.linkUrl;
 		chrome.windows.create(minibrowser);
 	} else if ((click.menuItemId === 'pageinpopup') && click.pageUrl) {
-		minibrowser.type = 'popup';
 		minibrowser.url = click.pageUrl;
 		chrome.windows.create(minibrowser);
-	}
-	if (host !== "Firefox") {
-		chrome.windows.getCurrent(details => {
-			setTimeout(() => {
-				try {
-					chrome.windows.get(details.id, details => {
-						if (details) {
-							userpref.miniwindow.top = details.top;
-							userpref.miniwindow.left = details.left;
-							userpref.miniwindow.width = details.width;
-							userpref.miniwindow.height = details.height;
-							window.localStorage.setItem(storagename, JSON.stringify(userpref));
-						}
-					});
-				} catch {}
-			}, 5000);
-		});
 	}
 });
 // receive user preferences
@@ -311,6 +321,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 			} else if (tabid > -1) {
 				chrome.tabs.reload(tabid, { "bypassCache": true });
 			}
+		});
+	} else if (request === 'rated') {
+		userpref.ratedat = userpref.ratedat*10;
+		window.localStorage.setItem(storagename, JSON.stringify(userpref));
+		chrome.browserAction.setBadgeText({
+			"text": ""
+		});
+		chrome.browserAction.setBadgeBackgroundColor({
+			"color": "#101a20"
 		});
 	} else {
 		userpref = request;

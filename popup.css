@@ -3,14 +3,14 @@
 	font-style: normal;
 	font-weight: 500;
 	src: local('Fira Sans Regular'), local('FiraSans-Regular'),
-		url('__MSG_font500__') format('truetype');
+		url('./fonts/500.ttf') format('truetype');
 }
 @font-face {
 	font-family: 'Fira Sans';
 	font-style: normal;
 	font-weight: 700;
 	src: local('Fira Sans Regular'), local('FiraSans-Regular'),
-		url('__MSG_font700__') format('truetype');
+		url('./fonts/700.ttf') format('truetype');
 }
 :root {
 	--disabled: gray;
@@ -23,11 +23,9 @@
 	html, body, div, h1, p, picture, img {
 		background-color: #c1d5e0;
 	}
-	#reload {
+	button {
 		border-color: #101a20;
 		background-color: #101a20;
-	}
-	#reload {
 		color: #c1d5e0;
 	}
 }
@@ -38,15 +36,13 @@
 	html, body, div, h1, p  {
 		background-color: #101a20;
 	}
-	#reload {
+	button {
 		border-color: #c1d5e0;
 		background-color: #c1d5e0;
-	}
-	#reload {
 		color: #101a20;
 	}
 }
-html, body, h1, picture, img, input, p, div, span, button {
+html, body, h1, picture, img, input, p, div, span, button, iframe {
 	margin: 0;
 	padding: 0;
 	border-style: none;
@@ -60,7 +56,7 @@ html {
 }
 body {
 	height: auto;
-	width: __MSG_extwidth__;
+	width: 7cm;
 	display: grid;
 	grid-template-columns: 100%;
 	grid-template-rows: auto auto 1cm auto auto auto 1.5cm auto;
@@ -73,6 +69,24 @@ h1 {
 	font-size: 0.55cm;
 	text-align: center;
 	padding: 0.2cm;
+}
+.rateus {
+	margin: auto;
+	display: none;
+	height: auto;
+	width: 90%;
+	padding: 0.2cm;
+	grid-template-columns: 100%;
+	grid-template-rows: auto auto auto 1.5cm;
+}
+span > p {
+	grid-row: span 1;
+	grid-column: span 1;
+	padding: 0;
+	text-align: justify;
+}
+span > a {
+	text-align: center;
 }
 img {
 	margin: 0% 2%;
@@ -109,7 +123,7 @@ p {
 	grid-row: span 1;
 	grid-column: span 1;
 }
-div {
+div#switches {
 	grid-row: span 1;
 	grid-column: span 1;
 	display: grid;
@@ -137,7 +151,7 @@ div > span > p {
 	width: 100%;
 	height: 100%;
 }
-#reload {
+button {
 	padding: 0;
 	overflow: hidden;
 	grid-row: span 1;

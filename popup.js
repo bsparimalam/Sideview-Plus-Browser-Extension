@@ -112,39 +112,47 @@ function setuserpref() {
 			}
 			bugreport.href = `mailto:support@bhar.app?subject=Reflow - bug report - ${website} - &body=Hi, I found an issue with the extension. Issue description: useragent: ${navigator.userAgent}`;
 			let reflows = userpref.totalreflows;
-			if (reflows > 1000000000) {
-				usage.innerText = Math.floor(reflows/1000000000) + 'B+';
-			} else if (reflows > 1000000) {
-				usage.innerText = Math.floor(reflows/1000000) + 'M+';
-			} else if (reflows > 1000) {
-				usage.innerText = Math.floor(reflows/1000) + 'K+';
+			random = Math.random();
+			if (random < 0.25) {
+				monetize.innerText = "Buy a monitor!";
+				monetize.href = "https://www.amazon.com/gp/product/B08BF4CZSV/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B08BF4CZSV&linkCode=as2&tag=bhar-20&linkId=63563e10413ce988daac14c47ff887e6";
+			} else if (random < 0.50) {
+				monetize.innerText = "Rate the extension!";
+				if (host === "Firefox") {
+					monetize.href = "https://addons.mozilla.org/en-CA/firefox/addon/mini-browser-for-multitasking/";
+				} else if (host === "Edg") {
+					monetize.href = "https://microsoftedge.microsoft.com/addons/detail/reflow-for-multitasking/ngocckbdkjpgidpachimbiaphcgjgoaa";
+				} else {
+					monetize.href = "https://chrome.google.com/webstore/detail/reflow-for-multitasking/cgkfhhagdgcjcjdkcbpohhhidlibblkn/reviews?utm_source=rateus";
+				}
+			} else if (random < 0.75) {
+				monetize.innerText = "Buy me a coffee!";
+				monetize.href = "https://paypal.me/bharathyy";
 			} else {
-				usage.innerText = Math.floor(userpref.totalreflows) + '';
+				monetize.href = "";
+				if (reflows > 1000000000) {
+					monetize.innerText = Math.floor(reflows/1000000000) + 'B+' + ' reflows!';
+				} else if (reflows > 1000000) {
+					monetize.innerText = Math.floor(reflows/1000000) + 'M+' + ' reflows!';
+				} else if (reflows > 1000) {
+					monetize.innerText = Math.floor(reflows/1000) + 'K+' + ' reflows!';
+				} else {
+					monetize.innerText = Math.floor(userpref.totalreflows) + '' + ' reflows!';
+				}
 			}
 			if (host === "Firefox") {
-				promo.href = "https://addons.mozilla.org/en-CA/firefox/addon/mini-browser-for-multitasking/";
+				ratebutton.href = "https://addons.mozilla.org/en-CA/firefox/addon/mini-browser-for-multitasking/";
 			} else if (host === "Edg") {
-				promo.href = "https://microsoftedge.microsoft.com/addons/detail/reflow-for-multitasking/ngocckbdkjpgidpachimbiaphcgjgoaa";
+				ratebutton.href = "https://microsoftedge.microsoft.com/addons/detail/reflow-for-multitasking/ngocckbdkjpgidpachimbiaphcgjgoaa";
 			} else {
-				promo.href = "https://chrome.google.com/webstore/detail/reflow-for-multitasking/cgkfhhagdgcjcjdkcbpohhhidlibblkn?utm_source=reflow";
+				ratebutton.href = "https://chrome.google.com/webstore/detail/reflow-for-multitasking/cgkfhhagdgcjcjdkcbpohhhidlibblkn/reviews?utm_source=rateus";
 			}
 		});
 	});
 }
 
 // not duplicate
-document.getElementById('name').innerText = chrome.i18n.getMessage('name');
-document.getElementById('none').innerText = chrome.i18n.getMessage('none');
-document.getElementById('some').innerText = chrome.i18n.getMessage('some');
-document.getElementById('more').innerText = chrome.i18n.getMessage('more');
-document.getElementById('all').innerText = chrome.i18n.getMessage('all');
-document.getElementById('reflowon').innerText = chrome.i18n.getMessage('reflowon');
-document.getElementById('page').innerText = chrome.i18n.getMessage('page');
-document.getElementById('reload').innerText = chrome.i18n.getMessage('reload');
-document.getElementById('bugreport').innerText = chrome.i18n.getMessage('bugreport');
-document.getElementById('reflows').innerText = chrome.i18n.getMessage('reflows');
-document.getElementById('bharapp').innerText = chrome.i18n.getMessage('bharapp');
-
+ratebutton = document.getElementById('rateus');
 pagename = document.getElementById('page');
 websitename = document.getElementById('website');
 domainname =  document.getElementById('domain');
@@ -154,9 +162,8 @@ domainswitch = document.getElementById('domain-switch');
 widthslider = document.getElementById('width-slider');
 schematic = document.getElementById('schematic');
 reloadbutton = document.getElementById('reload');
-usage =  document.getElementById('usage');
 bugreport = document.getElementById('bugreport');
-promo = document.getElementById('bharapp');
+monetize = document.getElementById('monetize');
 host = gethost();
 setuserpref();
 
@@ -209,5 +216,23 @@ document.addEventListener('change', event => {
 reloadbutton.addEventListener('click', event => {
 	chrome.runtime.sendMessage('reload');
 	window.close();
-});	
-
+});
+ratebutton.addEventListener('click', event => {
+	chrome.runtime.sendMessage('rated');
+})
+if (userpref.totalreflows/userpref.ratedat > 10) {
+	document.getElementsByTagName('body')[0].style.gridTemplateRows = "auto 0 0 0 0 0 0 0 0 0 0 0";
+	document.getElementsByClassName('rateus')[0].style.display = "grid";
+	widthslider.style.display = "none";
+	pagename.style.display = "none";
+	websitename.style.display = "none";
+	domainname.style.display = "none";
+	pageswitch.style.display = "none";
+	websiteswitch.style.display = "none";
+	domainswitch.style.display = "none";
+	widthslider.style.display = "none";
+	schematic.style.display = "none";
+	reloadbutton.style.display = "none";
+	usage.style.display = "none";
+	bugreport.style.display = "none";
+}
