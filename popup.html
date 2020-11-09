@@ -1,36 +1,52 @@
 <!DOCTYPE  html>
 <html lang="en">
 <head>
-	<title>Reflow for Multitasking</title>
+	<title>Sideview Plus</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="./popup.css">
 </head>
 <body>
-	<span class="rateus">
-		<h1> Enjoying Reflow for Multitasking? </h1>
-		<p> &nbsp&nbsp Please take a moment and help spread the word by rating Reflow for Multitasking. Thanks for your support! </p> <br>
-		<a id="rateus" target="_blank"><button>Rate Us</button></a>
-	</span>
-	<h1 id="name">Reflow for Multitasking</h1>
-	<picture>
-    	<source srcset="./icons/schematic-dark.png" 
-    		media="(prefers-color-scheme: dark)">
-		<img id="schematic" src="./icons/schematic.png"/>
-	</picture>
-	<input id="width-slider" type="range" name="set width Cut-off" min="0.0" max="1.1" step="0.1" value="0.41">
-	<p id="slideval"><span id="none">none</span><span id="some">some</span><span id="more">more</span><span id="all">all</span></p>
-	<h1 id="reflowon">Reflow On</h1>
-	<div id='switches'>
-		<span class="switchof" ><p id="page" title="www.example.com/example.html">this page</p></span>
-		<input id="page-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
-		<span class="switchof" ><p id="website">subdomain</p></span>
-		<input id="website-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
-		<span class="switchof" ><p id="domain">domain</p></span>
-		<input id="domain-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
+	<div class="rateus">
+		<h1> Enjoying Sideview Plus? </h1>
+		<p> &nbsp&nbsp Please take a moment and help spread the word by rating Sideview Plus. Thanks for your support! </p> <br>
+		<a id="rateus" target="_blank">Rate Us</a>
 	</div>
+	<h1 class="title">Sideview Plus</h1>
+	<p class="slogan">Multitask without Second Monitor</p>
+	<img class="shortcuticon" id="newtab73" src="./icons/newtab73.png" name="">
+	<img class="shortcuticon" id="newtab11" src="./icons/newtab11.png" name="">
+	<img class="shortcuticon" id="thistab73" src="./icons/thistab73.png" name="">
+	<img class="shortcuticon" id="thistab11" src="./icons/thistab11.png" name="">
+	<h1 class="fluidstatus" title="Requests a more responsive mobile site on narrow windows" >Fluid mode is <span id="fluidstatus">ON</span> in this tab</h1>
+	<input id="width-slider" type="range" list="tickmarks" min="0.0" max="1.1" step="0.1" value="0.41">
+	<datalist id="tickmarks">
+	  <option value="0.0"></option>
+	  <option value="0.1"></option>
+	  <option value="0.2"></option>
+	  <option value="0.3"></option>
+	  <option value="0.4"></option>
+	  <option value="0.5"></option>
+	  <option value="0.6"></option>
+	  <option value="0.7"></option>
+	  <option value="0.8"></option>
+	  <option value="0.9"></option>
+	  <option value="1.0"></option>
+	  <option value="1.1"></option>
+	</datalist>
+	<p class="width-slider-label">25%</p>
+	<p class="width-slider-label">50%</p>
+	<p class="width-slider-label">75%</p>
+	<p class="width-slider-label">100%</p>
+	<p class="fluiddesc">Activated if page width is below __% of screen width on </p>
+	<p class="switchof" id="page" title="www.example.com/example.html">this page</p>
+	<input id="page-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
+	<p class="switchof" id="website">subdomain</p>
+	<input id="website-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
+	<p class="switchof" id="domain">domain</p>
+	<input id="domain-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
 	<button id="reload">Reload the page</button>
-	<p class="subtext" ><a id="bugreport" href="mailto:support@bhar.app">⚠ report issue</a>&nbsp&nbsp|&nbsp&nbsp<a id="monetize" href="" target="_blank"></a></p>
+	<span class="bottombar"><a href="https://docs.google.com/forms/d/e/1FAIpQLSfo89Ar9Td_mKLb465WWHOUZjfJMIop3JnE7_CPOKE9ooTHmQ/viewform" target="_blank">⚠ report issue</a>&nbsp&nbsp|&nbsp&nbsp<a href="" target="_blank" id="monetize">Growth/Monetize</a></span>
     <script src='./popup.js'></script>
 </body>
 </html>

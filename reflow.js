@@ -94,7 +94,11 @@ targetua = gettargetua(host);
 tabwidth = undefined;
 taburl = undefined;
 reflowlist = {};
+windowlist = {};
+unshrinklist = {};
 screenwidth =  window.screen.width;
+sidewidth = Math.max(Math.round(screenwidth*0.30), 500);
+sidewidth2 = Math.max(Math.round(screenwidth*0.50), 500);
 screenheight = window.screen.height;
 
 // load defaults if needed
@@ -208,9 +212,9 @@ chrome.webNavigation.onCommitted.addListener(details => {
 									"color": "#FF0000"
 								});
 							}
-						} else if (result !== "ON") {
+						} else if (result !== "fluid") {
 							chrome.browserAction.setBadgeText({
-								"text": "ON",
+								"text": "fluid",
 								"tabId": tabid
 							});
 							chrome.browserAction.setBadgeBackgroundColor({
@@ -250,64 +254,118 @@ chrome.webNavigation.onCommitted.addListener(details => {
 	}
 });
 
-let linkinpopup = {
-	"id":"linkinpopup",
-	"title": "Open link in a miniwindow",
-	'contexts': ['link']
-}
-chrome.contextMenus.create(linkinpopup);
+//context menus
+//Search in a popup
 let searchinpopup = {
 	"id":"searchinpopup",
-	"title": "Search Google for '%s' in a miniwindow",
+	"title": 'Search Google for "%s"',
 	'contexts': ['selection']
 }
 chrome.contextMenus.create(searchinpopup);
-let pageinpopup = {
-	"id":"pageinpopup",
-	"title": "Open this page in a miniwindow",
+let popup = {
+	type: "popup",
+	top: Math.round(screenheight*0.20),
+	left: Math.round(screenwidth*0.15),
+	height: Math.round(screenheight*0.70),
+	width: Math.round(screenwidth*0.70)
+};
+//Link on the side
+let linkontheside = {
+	"id":"linkontheside",
+	"title": "Open link on the side",
+	'contexts': ['link']
+}
+chrome.contextMenus.create(linkontheside);
+let pageontheside = {
+	"id":"pageontheside",
+	"title": "Open this page on the side",
 	'contexts': ['page']
 };
-chrome.contextMenus.create(pageinpopup);
-// define the window parameters
-let minibrowser = {
-	"state": "normal"
+chrome.contextMenus.create(pageontheside);
+let side = {
+	type: "normal",
+	top: 0,
+	left: screenwidth - sidewidth,
+	width: sidewidth,
+	height: screenheight
 };
-if (host !== "Firefox") {
-	minibrowser.focused = true;
-}
-// respond to the user request
-chrome.contextMenus.onClicked.addListener((click) => {
-	screenwidth = window.screen.width;
-	screenheight = window.screen.height;
-	miniwidth = Math.max(Math.round(screenwidth*0.30), 500);
-	minibrowser.top = 0;
-	minibrowser.left = screenwidth - miniwidth;
-	minibrowser.width = miniwidth;
-	minibrowser.height = screenheight;
+
+function openontheside(url, thiswidth) {
+	var windowid;
+	var windowstate;
+	side.url = url;
 	chrome.windows.getCurrent(windows => {
-		if (windows.state === "maximized") {
-			chrome.windows.update(windows.id, {
+		windowid = windows.id;
+		windowstate = windows.state;
+		side.left = screenwidth - thiswidth;
+		side.width = thiswidth;
+		if (windowstate === "maximized") {
+			chrome.windows.update(windowid, {
 				'state': 'normal',
 				'top': 0,
 				'left': -8,
 				'height': screenheight - 40,
-				'width': screenwidth - miniwidth + 20
+				'width': screenwidth - thiswidth + 20
 			});
 		}
+		if (windowlist[windowid] === undefined) {
+			chrome.windows.create(side, thiswindow => {
+				windowlist[windowid] = thiswindow.id;
+				if (windowstate === "maximized") {
+					unshrinklist[thiswindow.id] = windowid;
+				}
+			});
+		} else {
+			chrome.windows.get(windowlist[windowid], thiswindow => {
+				if (thiswindow === undefined) {
+					chrome.windows.create(side, thiswindow => {
+						windowlist[windowid] = thiswindow.id;
+						if (windowstate === "maximized") {
+							unshrinklist[thiswindow.id] = windowid;
+						}
+					});
+				} else {
+					chrome.tabs.create({
+							windowId: windowlist[windowid],
+							url: url
+					});
+				}
+			});
+		}
+		console.log(windowlist, windowid, unshrinklist);
 	});
+}
+
+if (host !== "Firefox") {
+	side.focused = true;
+	popup.focused = true;
+}
+// respond to the user request
+chrome.contextMenus.onClicked.addListener((click) => {
+	let windowid;
 	if ((click.menuItemId ==='searchinpopup') && click.selectionText) {
-		minibrowser.url = 'https://google.com/search?q=' + translate4search(click.selectionText);
-		chrome.windows.create(minibrowser);
-	} else if ((click.menuItemId === 'linkinpopup') && click.linkUrl) {
-		minibrowser.url = click.linkUrl;
-		chrome.windows.create(minibrowser);
-	} else if ((click.menuItemId === 'pageinpopup') && click.pageUrl) {
-		minibrowser.url = click.pageUrl;
-		chrome.windows.create(minibrowser);
+		popup.url = 'https://google.com/search?q=' + translate4search(click.selectionText);
+		chrome.windows.create(popup);
+	} else if ((click.menuItemId === 'linkontheside') && click.linkUrl) {
+		openontheside(click.linkUrl, sidewidth);
+	} else if ((click.menuItemId === 'pageontheside') && click.pageUrl) {
+		console.log(click.pageUrl);
+		chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+			chrome.tabs.remove(tabs[0].id);
+		});
+		openontheside(click.pageUrl, sidewidth);
+	}
+});
+chrome.windows.onRemoved.addListener(removedid => {
+	if(unshrinklist[removedid] !== undefined) {
+		chrome.windows.update(unshrinklist[removedid], {
+			'state': 'maximized'
+		});
 	}
 });
 // receive user preferences
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	console.log(request);
 	if (request === 'reload') {
 		chrome.tabs.query({active: true, currentWindow: true}, tabs => {
 			let tab = tabs[0];
@@ -331,10 +389,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 		chrome.browserAction.setBadgeBackgroundColor({
 			"color": "#101a20"
 		});
+	} else if (request === 'newtab73') {
+		openontheside("chrome://newtab", sidewidth);
+	} else if (request === 'newtab11') {
+		openontheside("chrome://newtab", sidewidth2);
+	} else if (request === 'thistab73'){
+		chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+			chrome.tabs.remove(tabs[0].id);
+			openontheside(tabs[0].url, sidewidth);
+		});
+	} else if (request === 'thistab11') {
+		chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+			chrome.tabs.remove(tabs[0].id);
+			openontheside(tabs[0].url, sidewidth2);
+		});
 	} else {
 		userpref = request;
 		window.localStorage.setItem(storagename, JSON.stringify(userpref));
 	}
 });
 
-chrome.runtime.setUninstallURL(`https://bhar.app/feedback/reflow.html?utm_source=${host}`);
+chrome.runtime.setUninstallURL("https://docs.google.com/forms/d/e/1FAIpQLSf_yedgTZGc4sq1n17yt1eqEHi2UbV4wmXpS6ajY06uAdXssQ/viewform");

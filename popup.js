@@ -60,15 +60,47 @@ function setuserpref() {
 	chrome.tabs.query({active:true, currentWindow:true}, tabs => {
 		let tabid = tabs[0].id;
 		chrome.tabs.get(tabid, tab => {
+			chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
+				if (result === "fluid") {
+					fluidstatus.innerText = "ON";
+					fluidstatus.style.color = 'green';
+				} else if (result === "1") {
+					document.getElementsByClassName('title')[0].style.display = "none";
+					document.getElementsByClassName('slogan')[0].style.display = "none";
+					document.getElementsByClassName('shortcuticon')[0].style.display = "none";
+					document.getElementsByClassName('shortcuticon')[1].style.display = "none";
+					document.getElementsByClassName('shortcuticon')[2].style.display = "none";
+					document.getElementsByClassName('shortcuticon')[3].style.display = "none";
+					document.getElementsByClassName('fluidstatus')[0].style.display = "none";
+					widthslider.style.display = "none";
+					document.getElementsByClassName('width-slider-label')[0].style.display = "none";
+					document.getElementsByClassName('width-slider-label')[1].style.display = "none";
+					document.getElementsByClassName('width-slider-label')[2].style.display = "none";
+					document.getElementsByClassName('width-slider-label')[3].style.display = "none";
+					document.getElementsByClassName('fluiddesc')[0].style.display = "none";
+					pagename.style.display = "none";
+					websitename.style.display = "none";
+					domainname.style.display = "none";
+					pageswitch.style.display = "none";
+					websiteswitch.style.display = "none";
+					domainswitch.style.display = "none";
+					reloadbutton.style.display = "none";
+					document.getElementsByClassName('bottombar')[0].style.display = "none";
+					document.getElementsByClassName('rateus')[0].style.display = "block";
+				} else {
+					fluidstatus.innerText = "OFF";
+					fluidstatus.style.color = 'red';
+				}
+			});
 			let taburl = tab.url;
 			let domain = url2domain(taburl);
 			let website = url2root(taburl);
 			let page = url2page(taburl);
 			pagename.title = page;
 			websitename.title = website;
-			websitename.innerText = website.slice(0, 24);
+			websitename.innerText = website.slice(0, 20);
 			domainname.title = domain;
-			domainname.innerText = domain.slice(0, 24);
+			domainname.innerText = domain.slice(0, 20);
 			widthslider.value = userpref.widthcutoff;
 			if (page === website) {
 				pageswitch.disabled = true;
@@ -110,11 +142,10 @@ function setuserpref() {
 				websiteswitch.value = 0;
 				domainswitch.value = 0;
 			}
-			bugreport.href = `mailto:support@bhar.app?subject=Reflow - bug report - ${website} - &body=Hi, I found an issue with the extension. Issue description: useragent: ${navigator.userAgent}`;
 			let reflows = userpref.totalreflows;
 			random = Math.random();
 			if (random < 0.25) {
-				monetize.innerText = "Buy a monitor!";
+				monetize.innerText = "Buy a second monitor!";
 				monetize.href = "https://www.amazon.com/gp/product/B08BF4CZSV/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B08BF4CZSV&linkCode=as2&tag=bhar-20&linkId=63563e10413ce988daac14c47ff887e6";
 			} else if (random < 0.50) {
 				monetize.innerText = "Rate the extension!";
@@ -126,7 +157,7 @@ function setuserpref() {
 					monetize.href = "https://chrome.google.com/webstore/detail/reflow-for-multitasking/cgkfhhagdgcjcjdkcbpohhhidlibblkn/reviews?utm_source=rateus";
 				}
 			} else if (random < 0.75) {
-				monetize.innerText = "Buy me a coffee!";
+				monetize.innerText = "Buy me a cup of coffee!";
 				monetize.href = "https://paypal.me/bharathyy";
 			} else {
 				monetize.href = "";
@@ -153,6 +184,7 @@ function setuserpref() {
 
 // not duplicate
 ratebutton = document.getElementById('rateus');
+fluidstatus = document.getElementById('fluidstatus');
 pagename = document.getElementById('page');
 websitename = document.getElementById('website');
 domainname =  document.getElementById('domain');
@@ -162,7 +194,6 @@ domainswitch = document.getElementById('domain-switch');
 widthslider = document.getElementById('width-slider');
 schematic = document.getElementById('schematic');
 reloadbutton = document.getElementById('reload');
-bugreport = document.getElementById('bugreport');
 monetize = document.getElementById('monetize');
 host = gethost();
 setuserpref();
@@ -211,28 +242,40 @@ document.addEventListener('change', event => {
 	}
 	chrome.runtime.sendMessage(userpref);
 	setuserpref();
+	setInterval(() => {
+		reloadbutton.style.filter = "brightness(200%)";
+		setTimeout(() => {
+			reloadbutton.style.filter = "brightness(100%)";
+		}, 300);
+	}, 600);
 });
-
-reloadbutton.addEventListener('click', event => {
-	chrome.runtime.sendMessage('reload');
-	window.close();
+document.addEventListener('click', event => {
+	var id = event.target.id;
+	console.log(event, id);
+	switch(id) {
+		case 'reload':
+			chrome.runtime.sendMessage('reload');
+			window.close();
+			break;
+		case 'rateus':
+			chrome.runtime.sendMessage('rated');
+			window.close();
+			break;
+		case 'newtab73':
+			chrome.runtime.sendMessage('newtab73');
+			window.close();
+			break;
+		case 'newtab11':
+			chrome.runtime.sendMessage('newtab11');
+			window.close();
+			break;
+		case 'thistab73':
+			chrome.runtime.sendMessage('thistab73');
+			window.close();
+			break;
+		case 'thistab11':
+			chrome.runtime.sendMessage('thistab11');
+			window.close();
+			break;
+	}
 });
-ratebutton.addEventListener('click', event => {
-	chrome.runtime.sendMessage('rated');
-})
-if (userpref.totalreflows/userpref.ratedat > 10) {
-	document.getElementsByTagName('body')[0].style.gridTemplateRows = "auto 0 0 0 0 0 0 0 0 0 0 0";
-	document.getElementsByClassName('rateus')[0].style.display = "grid";
-	widthslider.style.display = "none";
-	pagename.style.display = "none";
-	websitename.style.display = "none";
-	domainname.style.display = "none";
-	pageswitch.style.display = "none";
-	websiteswitch.style.display = "none";
-	domainswitch.style.display = "none";
-	widthslider.style.display = "none";
-	schematic.style.display = "none";
-	reloadbutton.style.display = "none";
-	usage.style.display = "none";
-	bugreport.style.display = "none";
-}
