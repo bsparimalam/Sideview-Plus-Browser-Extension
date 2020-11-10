@@ -146,7 +146,7 @@ function setuserpref() {
 			random = Math.random();
 			if (random < 0.25) {
 				monetize.innerText = "Buy a second monitor!";
-				monetize.href = "https://www.amazon.com/gp/product/B08BF4CZSV/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B08BF4CZSV&linkCode=as2&tag=bhar-20&linkId=63563e10413ce988daac14c47ff887e6";
+				monetize.href = "https://www.amazon.com/gp/search?ie=UTF8&tag=bhar-20&linkCode=ur2&linkId=2c5bfa26c36a000ea7336bba3b8ec0a5&camp=1789&creative=9325&index=pc-hardware&keywords=monitor";
 			} else if (random < 0.50) {
 				monetize.innerText = "Rate the extension!";
 				if (host === "Firefox") {

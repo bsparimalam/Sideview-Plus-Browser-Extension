@@ -409,4 +409,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	}
 });
 
+chrome.commands.onCommand.addListener(command => {
+	switch(command) {
+		case "thistabonside":
+			chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+				chrome.tabs.remove(tabs[0].id);
+				openontheside(tabs[0].url, sidewidth);
+			});
+			break;
+		case "newtabonside":
+			openontheside("chrome://newtab", sidewidth);
+			break;
+	}
+})
+
 chrome.runtime.setUninstallURL("https://docs.google.com/forms/d/e/1FAIpQLSf_yedgTZGc4sq1n17yt1eqEHi2UbV4wmXpS6ajY06uAdXssQ/viewform");

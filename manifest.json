@@ -1,6 +1,6 @@
 {
   "name": "Sideview Plus: Multitask w/o Second Monitor",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "Super charge multitasking on a single screen",
   "icons": {
     "16": "./icons/icon-16.png",
@@ -49,6 +49,22 @@
     "tabs",
     "contextMenus"
   ],
+  "commands": {
+    "thistabonside":{
+      "suggested_key": {
+        "default": "Alt+S",
+        "mac": "Alt+S"
+      },
+      "description": "thistabonside"
+    },
+    "newtabonside": {
+      "suggested_key": {
+        "default": "Alt+N",
+        "mac": "Alt+N"
+      },
+      "description": "newtabonside"
+    }
+  },
   "content_security_policy": "default-src 'self';",
   "manifest_version": 2
 }
