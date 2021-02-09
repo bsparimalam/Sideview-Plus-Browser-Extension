@@ -7,37 +7,25 @@
 	<link rel="stylesheet" href="./popup.css">
 </head>
 <body>
-	<div class="rateus">
-		<h1> Enjoying Sideview Plus? </h1>
-		<p> &nbsp&nbsp Please take a moment and help spread the word by rating Sideview Plus. Thanks for your support! </p> <br>
-		<a id="rateus" target="_blank">Rate Us</a>
-	</div>
 	<h1 class="title">Sideview Plus</h1>
 	<p class="slogan">Multitask without Second Monitor</p>
-	<img class="shortcuticon" id="newtab73" src="./icons/newtab73.png" title="Open a new window (7:3) on the side (Alt + N)">
-	<img class="shortcuticon" id="newtab11" src="./icons/newtab11.png" title="Open a new window (1:1) on the side">
-	<img class="shortcuticon" id="thistab73" src="./icons/thistab73.png" title="Open this page (7:3) on the side (Alt + S)">
-	<img class="shortcuticon" id="thistab11" src="./icons/thistab11.png" title="Open this page (1:1) on the side">
-	<h1 class="fluidstatus" title="Requests a more responsive mobile site on narrow windows" >Fluid mode is <span id="fluidstatus">ON</span> in this tab</h1>
-	<input id="width-slider" type="range" list="tickmarks" min="0.0" max="1.1" step="0.1" value="0.41">
+	<img class="shortcuticon" id="newtab73" message="newtab73" src="./icons/newtab73.png" title="Open a new window (7:3) on the side (Alt + Q)">
+	<img class="shortcuticon" id="newtab11" message="newtab11" src="./icons/newtab11.png" title="Open a new window (1:1) on the side (Alt + W)">
+	<img class="shortcuticon" id="thistab73" message="thistab73" src="./icons/thistab73.png" title="Open this page (7:3) on the side (Alt + A)">
+	<img class="shortcuticon" id="thistab11" message="thistab11" src="./icons/thistab11.png" title="Open this page (1:1) on the side (Alt + S)">
+	<img class="shortcuticon" id="recombine"  message="recombine" src="./icons/recombine.png" title="Merge parent and child windows (Alt + Z)">
+	<a class="shortcuttext" href="chrome://extensions/shortcuts" message="modifyshortcuts">See/modify keyboard shortcuts</a>
+	<h1 class="fluidstatus" title="Requests a more responsive mobile site on narrow windows" >Mobile mode is <span id="fluidstatus">ON</span> in this tab</h1>
+	<input id="width-slider" type="range" list="tickmarks" min="0.0" max="1.0" step="0.1" value="0.41">
 	<datalist id="tickmarks">
 	  <option value="0.0"></option>
-	  <option value="0.1"></option>
 	  <option value="0.2"></option>
-	  <option value="0.3"></option>
 	  <option value="0.4"></option>
-	  <option value="0.5"></option>
 	  <option value="0.6"></option>
-	  <option value="0.7"></option>
 	  <option value="0.8"></option>
-	  <option value="0.9"></option>
 	  <option value="1.0"></option>
-	  <option value="1.1"></option>
 	</datalist>
-	<p class="width-slider-label">25%</p>
-	<p class="width-slider-label">50%</p>
-	<p class="width-slider-label">75%</p>
-	<p class="width-slider-label">100%</p>
+	<p class="width-slider-label">&nbsp&nbsp&nbsp&nbsp0%&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp20%&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp40%&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp60%&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp80%&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp100%</p>
 	<p class="fluiddesc">Activated if page width is below __% of screen width on </p>
 	<p class="switchof" id="page" title="www.example.com/example.html">this page</p>
 	<input id="page-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
@@ -45,8 +33,16 @@
 	<input id="website-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
 	<p class="switchof" id="domain">domain</p>
 	<input id="domain-switch" class="switch" type="range" name="enable/disable reflow" min="0" max="1" step="1" value="1">
-	<button id="reload" title="Reload for changes to take effect (Ctrl + Shift + R)">Reload the page</button>
-	<span class="bottombar"><a href="https://docs.google.com/forms/d/e/1FAIpQLSfo89Ar9Td_mKLb465WWHOUZjfJMIop3JnE7_CPOKE9ooTHmQ/viewform" target="_blank">⚠ report issue</a>&nbsp&nbsp|&nbsp&nbsp<a href="" target="_blank" id="monetize">Growth/Monetize</a></span>
+	<button id="reload" message="reload" title="Reload for changes to take effect (Ctrl + Shift + R)">Reload the page</button>
+	<div class="overlay">
+		<div>
+			<br><br>
+			<h1> Enjoying Sideview Plus? Please take a moment to</h1><br><br>
+			<a target="_blank" id="rateus" message="contribute"><button message="contribute">Rate the extension<br><span message="contribute">help me spread the word</span></button></a><br><br><br>
+			<a target="_blank" href="https://paypal.me/bharathyy/3usd" message="contribute"><button message="contribute">Buy me a cup of coffee<br><span message="contribute">I could use a caffeine boost</span></button></a><br><br><br>
+			<a target="_blank" href="https://www.amazon.com/gp/search?tag=bhar-20&index=pc-hardware&keywords=monitor" message="contribute"><button message="contribute">Get a second monitor<br><span message="contribute">through my affiliate link</span></button></a><br><br><br>
+		</div>
+	</div>
     <script src='./popup.js'></script>
 </body>
 </html>

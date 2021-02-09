@@ -1,6 +1,6 @@
 {
   "name": "Sideview Plus: Multitask w/o Second Monitor",
-  "version": "2.0.2",
+  "version": "2.0.8",
   "description": "Super charge multitasking on a single screen",
   "icons": {
     "16": "./icons/icon-16.png",
@@ -39,7 +39,7 @@
   "default_title": "Sideview Plus: Multitask w/o Second Monitor"
   },
   "background": {
-    "scripts": ["./reflow.js"]
+    "scripts": ["./background.js"]
   },
   "permissions": [
     "webRequest",
@@ -52,17 +52,34 @@
   "commands": {
     "thistabonside":{
       "suggested_key": {
+        "default": "Alt+A",
+        "mac": "Alt+A"
+      },
+      "description": "Open this page (7:3) on the side"
+    },
+    "thistabonside11":{
+      "suggested_key": {
         "default": "Alt+S",
         "mac": "Alt+S"
       },
-      "description": "thistabonside"
+      "description": "Open this page (1:1) on the side"
     },
     "newtabonside": {
       "suggested_key": {
-        "default": "Alt+N",
-        "mac": "Alt+N"
+        "default": "Alt+Q",
+        "mac": "Alt+Q"
       },
-      "description": "newtabonside"
+      "description": "Open a new window (7:3) on the side"
+    },
+    "newtabonside11": {
+      "description": "Open a new window (1:1) on the side"
+    },
+    "recombine": {
+      "suggested_key": {
+        "default": "Alt+Z",
+        "mac": "Alt+Z"
+      },
+      "description": "Merge parent and child windows"
     }
   },
   "content_security_policy": "default-src 'self';",

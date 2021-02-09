@@ -61,32 +61,11 @@ function setuserpref() {
 		let tabid = tabs[0].id;
 		chrome.tabs.get(tabid, tab => {
 			chrome.browserAction.getBadgeText({'tabId': tabid}, result => {
-				if (result === "fluid") {
+				if (result === "M") {
 					fluidstatus.innerText = "ON";
 					fluidstatus.style.color = 'green';
 				} else if (result === "1") {
-					document.getElementsByClassName('title')[0].style.display = "none";
-					document.getElementsByClassName('slogan')[0].style.display = "none";
-					document.getElementsByClassName('shortcuticon')[0].style.display = "none";
-					document.getElementsByClassName('shortcuticon')[1].style.display = "none";
-					document.getElementsByClassName('shortcuticon')[2].style.display = "none";
-					document.getElementsByClassName('shortcuticon')[3].style.display = "none";
-					document.getElementsByClassName('fluidstatus')[0].style.display = "none";
-					widthslider.style.display = "none";
-					document.getElementsByClassName('width-slider-label')[0].style.display = "none";
-					document.getElementsByClassName('width-slider-label')[1].style.display = "none";
-					document.getElementsByClassName('width-slider-label')[2].style.display = "none";
-					document.getElementsByClassName('width-slider-label')[3].style.display = "none";
-					document.getElementsByClassName('fluiddesc')[0].style.display = "none";
-					pagename.style.display = "none";
-					websitename.style.display = "none";
-					domainname.style.display = "none";
-					pageswitch.style.display = "none";
-					websiteswitch.style.display = "none";
-					domainswitch.style.display = "none";
-					reloadbutton.style.display = "none";
-					document.getElementsByClassName('bottombar')[0].style.display = "none";
-					document.getElementsByClassName('rateus')[0].style.display = "block";
+					document.getElementsByClassName('overlay')[0].style.display = "block";
 				} else {
 					fluidstatus.innerText = "OFF";
 					fluidstatus.style.color = 'red';
@@ -143,39 +122,19 @@ function setuserpref() {
 				domainswitch.value = 0;
 			}
 			let reflows = userpref.totalreflows;
-			random = Math.random();
-			if (random < 0.25) {
-				monetize.innerText = "Buy a second monitor!";
-				monetize.href = "https://www.amazon.com/gp/search?ie=UTF8&tag=bhar-20&linkCode=ur2&linkId=2c5bfa26c36a000ea7336bba3b8ec0a5&camp=1789&creative=9325&index=pc-hardware&keywords=monitor";
-			} else if (random < 0.50) {
-				monetize.innerText = "Rate the extension!";
-				if (host === "Firefox") {
-					monetize.href = "https://addons.mozilla.org/en-CA/firefox/addon/mini-browser-for-multitasking/";
-				} else if (host === "Edg") {
-					monetize.href = "https://microsoftedge.microsoft.com/addons/detail/reflow-for-multitasking/ngocckbdkjpgidpachimbiaphcgjgoaa";
-				} else {
-					monetize.href = "https://chrome.google.com/webstore/detail/reflow-for-multitasking/cgkfhhagdgcjcjdkcbpohhhidlibblkn/reviews?utm_source=rateus";
-				}
-			} else if (random < 0.75) {
-				monetize.innerText = "Buy me a cup of coffee!";
-				monetize.href = "https://paypal.me/bharathyy";
-			} else {
-				monetize.href = "";
-				if (reflows > 1000000000) {
-					monetize.innerText = Math.floor(reflows/1000000000) + 'B+' + ' reflows!';
-				} else if (reflows > 1000000) {
-					monetize.innerText = Math.floor(reflows/1000000) + 'M+' + ' reflows!';
-				} else if (reflows > 1000) {
-					monetize.innerText = Math.floor(reflows/1000) + 'K+' + ' reflows!';
-				} else {
-					monetize.innerText = Math.floor(userpref.totalreflows) + '' + ' reflows!';
-				}
-			}
+
 			if (host === "Firefox") {
+				shortcuttext.innerHTML = "See/modify keyboard shortcuts via <br>about:addons > ☸ > manage extension shortcuts";
+				shortcuttext.href = "about:addons";
+				shortcuttext.style.fontSize = "0.28cm";
 				ratebutton.href = "https://addons.mozilla.org/en-CA/firefox/addon/mini-browser-for-multitasking/";
 			} else if (host === "Edg") {
+				shortcuttext.innerText = "See/modify keyboard shortcuts";
+				shortcuttext.href = "edge://extensions/shortcuts";
 				ratebutton.href = "https://microsoftedge.microsoft.com/addons/detail/reflow-for-multitasking/ngocckbdkjpgidpachimbiaphcgjgoaa";
 			} else {
+				shortcuttext.innerText = "See/modify keyboard shortcuts";
+				shortcuttext.href = "chrome://extensions/shortcuts";
 				ratebutton.href = "https://chrome.google.com/webstore/detail/reflow-for-multitasking/cgkfhhagdgcjcjdkcbpohhhidlibblkn/reviews?utm_source=rateus";
 			}
 		});
@@ -184,6 +143,7 @@ function setuserpref() {
 
 // not duplicate
 ratebutton = document.getElementById('rateus');
+shortcuttext = document.getElementsByClassName('shortcuttext')[0];
 fluidstatus = document.getElementById('fluidstatus');
 pagename = document.getElementById('page');
 websitename = document.getElementById('website');
@@ -194,7 +154,6 @@ domainswitch = document.getElementById('domain-switch');
 widthslider = document.getElementById('width-slider');
 schematic = document.getElementById('schematic');
 reloadbutton = document.getElementById('reload');
-monetize = document.getElementById('monetize');
 host = gethost();
 setuserpref();
 
@@ -243,38 +202,21 @@ document.addEventListener('change', event => {
 	chrome.runtime.sendMessage(userpref);
 	setuserpref();
 	setInterval(() => {
-		reloadbutton.style.filter = "brightness(200%)";
+		reloadbutton.style.color = 'red';
 		setTimeout(() => {
-			reloadbutton.style.filter = "brightness(100%)";
+			reloadbutton.style.color = 'white';
 		}, 300);
 	}, 600);
 });
+
 document.addEventListener('click', event => {
-	var id = event.target.id;
-	console.log(event, id);
-	switch(id) {
-		case 'reload':
-			chrome.runtime.sendMessage('reload');
-			window.close();
-			break;
-		case 'rateus':
-			chrome.runtime.sendMessage('rated');
-			window.close();
-			break;
-		case 'newtab73':
-			chrome.runtime.sendMessage('newtab73');
-			window.close();
-			break;
-		case 'newtab11':
-			chrome.runtime.sendMessage('newtab11');
-			window.close();
-			break;
-		case 'thistab73':
-			chrome.runtime.sendMessage('thistab73');
-			window.close();
-			break;
-		case 'thistab11':
-			chrome.runtime.sendMessage('thistab11');
+	switch(event.target.getAttribute('message')) {
+		case 'reload': case 'contribute': case 'newtab73': case 'newtab11':
+		case 'thistab73': case 'thistab11': case 'recombine': case 'modifyshortcuts':
+			// god knows why but this fixes the issues when multiple windows are open
+			chrome.windows.getCurrent(thiswindow => {
+				chrome.runtime.sendMessage(event.target.getAttribute('message'));
+			});
 			window.close();
 			break;
 	}
