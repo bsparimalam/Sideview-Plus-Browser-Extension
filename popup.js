@@ -127,15 +127,12 @@ function setuserpref() {
 				shortcuttext.innerHTML = "See/modify keyboard shortcuts via <br>about:addons > ☸ > manage extension shortcuts";
 				shortcuttext.href = "about:addons";
 				shortcuttext.style.fontSize = "0.28cm";
-				ratebutton.href = "https://addons.mozilla.org/en-CA/firefox/addon/mini-browser-for-multitasking/";
 			} else if (host === "Edg") {
 				shortcuttext.innerText = "See/modify keyboard shortcuts";
 				shortcuttext.href = "edge://extensions/shortcuts";
-				ratebutton.href = "https://microsoftedge.microsoft.com/addons/detail/reflow-for-multitasking/ngocckbdkjpgidpachimbiaphcgjgoaa";
 			} else {
 				shortcuttext.innerText = "See/modify keyboard shortcuts";
 				shortcuttext.href = "chrome://extensions/shortcuts";
-				ratebutton.href = "https://chrome.google.com/webstore/detail/reflow-for-multitasking/cgkfhhagdgcjcjdkcbpohhhidlibblkn/reviews?utm_source=rateus";
 			}
 		});
 	});
@@ -210,8 +207,10 @@ document.addEventListener('change', event => {
 });
 
 document.addEventListener('click', event => {
+	console.log('clicked');
+	console.log(event.target.getAttribute('message'));
 	switch(event.target.getAttribute('message')) {
-		case 'reload': case 'contribute': case 'newtab73': case 'newtab11':
+		case 'reload': case 'rate': case 'paypal': case 'amazon': case 'newtab73': case 'newtab11':
 		case 'thistab73': case 'thistab11': case 'recombine': case 'modifyshortcuts':
 			// god knows why but this fixes the issues when multiple windows are open
 			chrome.windows.getCurrent(thiswindow => {

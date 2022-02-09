@@ -268,11 +268,8 @@ if (userpref === null) {
 		],
 		"widthcutoff": 0.4,
 		"totalreflows": 0,
-		"ratedat": 0
+		"ratedat": 2020
 	}
-	window.localStorage.setItem(storagename, JSON.stringify(userpref));
-} else {
-	if (userpref.ratedat === undefined) { userpref.ratedat = 5}
 	window.localStorage.setItem(storagename, JSON.stringify(userpref));
 }
 
@@ -447,6 +444,7 @@ chrome.windows.onRemoved.addListener(removedid => {
 
 // receive user preference & requests
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	console.log(request);
 	if (request === 'reload') {
 		chrome.tabs.query({active: true, currentWindow: true}, tabs => {
 			let tab = tabs[0];
@@ -461,7 +459,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 				chrome.tabs.reload(tabid, { "bypassCache": true });
 			}
 		});
-	} else if (request === 'contribute') {
+	} else if (request === 'rate') {
 		userpref.ratedat = thisyear;
 		window.localStorage.setItem(storagename, JSON.stringify(userpref));
 		chrome.browserAction.setBadgeText({
@@ -470,6 +468,33 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 		chrome.browserAction.setBadgeBackgroundColor({
 			"color": "#101a20"
 		});
+		if (host === "Firefox") {
+			chrome.tabs.create({url: 'https://addons.mozilla.org/en-CA/firefox/addon/mini-browser-for-multitasking/'});
+		} else if (host === "Edg") {
+			chrome.tabs.create({url: 'https://microsoftedge.microsoft.com/addons/detail/reflow-for-multitasking/ngocckbdkjpgidpachimbiaphcgjgoaa'});
+		} else {
+			chrome.tabs.create({url: 'https://chrome.google.com/webstore/detail/reflow-for-multitasking/cgkfhhagdgcjcjdkcbpohhhidlibblkn/reviews?utm_source=rateus'});
+		}
+	} else if (request === 'paypal') {
+		userpref.ratedat = thisyear;
+		window.localStorage.setItem(storagename, JSON.stringify(userpref));
+		chrome.browserAction.setBadgeText({
+			"text": ""
+		});
+		chrome.browserAction.setBadgeBackgroundColor({
+			"color": "#101a20"
+		});
+		chrome.tabs.create({url: 'https://paypal.me/bharathyy/3usd'});
+	} else if (request === 'amazon') {
+		userpref.ratedat = thisyear;
+		window.localStorage.setItem(storagename, JSON.stringify(userpref));
+		chrome.browserAction.setBadgeText({
+			"text": ""
+		});
+		chrome.browserAction.setBadgeBackgroundColor({
+			"color": "#101a20"
+		});
+		chrome.tabs.create({url: 'https://www.amazon.com/gp/search?tag=bhar-20&index=pc-hardware&keywords=monitor'});
 	} else if (request === 'newtab73') {
 		openontheside(newtaburl, sidewidth);
 	} else if (request === 'newtab11') {
