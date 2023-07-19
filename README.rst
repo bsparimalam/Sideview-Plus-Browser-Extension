@@ -26,7 +26,3 @@ Super charge multitasking on a single screen. Sideview Plus is a solution for pe
 
 .. image:: assets/reflow_1280x800_3.png
     :align: center
-
-.. image:: https://img.youtube.com/vi/XTmWME7wutI/maxresdefault.jpg
-    :alt: Demo for sideview plus browser extension
-    :target: https://www.youtube.com/watch?v=XTmWME7wutI
