@@ -14,9 +14,9 @@ Super charge multitasking on a single screen. Sideview Plus is a solution for pe
 
 \*disabled on select responsive webpages by default. Configurable by width threshold, domain, subdomain, and per page basis.
 
-+---------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
-|   `Link to MS Edge Add-ons <https://microsoftedge.microsoft.com/addons/detail/sideview-plus-multitask-/ngocckbdkjpgidpachimbiaphcgjgoaa>`_  | `Link to Chrome Web Store <https://chrome.google.com/webstore/detail/sideview-plus-multitask-w/cgkfhhagdgcjcjdkcbpohhhidlibblkn?utm_source=portfolio>`_   | 
-+---------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
++-------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+|   `Homepage <https://parimalam.me/pages/sideview.html>`_    |   `Link to MS Edge Add-ons <https://microsoftedge.microsoft.com/addons/detail/sideview-plus-multitask-/ngocckbdkjpgidpachimbiaphcgjgoaa>`_  | `Link to Chrome Web Store <https://chrome.google.com/webstore/detail/sideview-plus-multitask-w/cgkfhhagdgcjcjdkcbpohhhidlibblkn?utm_source=portfolio>`_   | 
++-------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 .. image:: assets/reflow_1280x800_1.png
     :align: center
